@@ -24,6 +24,12 @@ namespace HraStrelba
             manager.Load();
         }
 
+        private void Form1_ClientSizeChanged(object sender, EventArgs e)
+        {
+            manager.Width = ClientSize.Width;
+            manager.Height = ClientSize.Height;
+        }
+
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             manager.Paint(e.Graphics);
@@ -70,12 +76,6 @@ namespace HraStrelba
         private void TimerShoot_Tick(object sender, EventArgs e)
         {
             manager.Shoot();
-        }
-
-        private void Form1_ClientSizeChanged(object sender, EventArgs e)
-        {
-            manager.Width = ClientSize.Width;
-            manager.Height = ClientSize.Height;
         }
     }
 }

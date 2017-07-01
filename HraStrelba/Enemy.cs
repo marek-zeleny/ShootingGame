@@ -6,50 +6,37 @@ using System.Drawing;
 
 namespace HraStrelba
 {
-    class Enemy: Player
+    class Enemy: Subject
     {
-        public Enemy(float x, float y, int xMax, int yMax, Color colour, float velocity, int hp)
-            : base(x, y, xMax, yMax, colour)
+        public Enemy(float x, float y, float velocity)
+            : base(x, y)
         {
             this.velocity = velocity;
-            Hp = hp;
+            Hp = 8;
             maxHp = Hp;
+            colour = Color.Yellow;
         }
-
-        public void Draw(Graphics gr)
-        {
-            gr.FillEllipse(new SolidBrush(colour), X, Y, size, size);
-            //Health bar
-            float hpRate = 360 - ((float)Hp / maxHp) * 360;
-            gr.FillPie(Brushes.Red, X + size / 8, Y + size / 8, size * 3 / 4, size * 3 / 4, 270, hpRate);
-        }
-
+        /// <summary>
+        /// Moves the enemy.
+        /// </summary>
+        /// <param name="playerX">X coordinate of player's current position</param>
+        /// <param name="playerY">Y coordinate of player's current position</param>
         public void Move(float playerX, float playerY)
         {
-            float v = velocity;
-            float Dx = 0;
-            float Dy = 0;
-            if (playerX - X > v)
-                Dx = v;
-            else if (playerX - X < -v)
-                Dx = -v;
-            if (playerY - Y > v)
-                Dy = v;
-            else if (playerY - Y < -v)
-                Dy = -v;
-            if (Dx != 0 && Dy != 0) //same diagonal speed as horizontal/vertical
-            {
-                Dx /= (float)Math.Sqrt(2);
-                Dy /= (float)Math.Sqrt(2);
-            }
-            X += Dx;
-            Y += Dy;
+            bool right = (playerX - CenterX > velocity);
+            bool left = (playerX - CenterX < -velocity);
+            bool down = (playerY - CenterY > velocity);
+            bool up = (playerY - CenterY < -velocity);
+            base.Move(right, left, up, down, velocity);
         }
-
-        public bool Hit(float shotX, float shotY)
+        /// <summary>
+        /// Checks whether the enemy got hit by a player's shot.
+        /// </summary>
+        /// <param name="shotCenterX">X coordinate of the center of the shot</param>
+        /// <param name="shotCenterY">Y coordinate of the center of the shot</param>
+        /// <returns>True if the enemy got hit</returns>
+        public bool Hit(float shotCenterX, float shotCenterY)
         {
-            float shotCenterX = shotX + Shot.size / 2;
-            float shotCenterY = shotY + Shot.size / 2;
             float distance = Methods.Distance(CenterX, CenterY, shotCenterX, shotCenterY);
             if (distance < size / 2 + Shot.size / 2)
             {

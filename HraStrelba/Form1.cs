@@ -21,7 +21,6 @@ namespace HraStrelba
         private void Form1_Load(object sender, EventArgs e)
         {
             manager = new Manager(ClientSize.Width, ClientSize.Height);
-            manager.Load();
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)

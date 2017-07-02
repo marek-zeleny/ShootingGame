@@ -13,25 +13,13 @@ namespace HraStrelba
     {
         public float X { get; protected set; }
         public float Y { get; protected set; }
-        public float CenterX
-        {
-            get
-            {
-                return X + size / 2;
-            }
-        }
-        public float CenterY
-        {
-            get
-            {
-                return Y + size / 2;
-            }
-        }
+        public float CenterX { get { return X + Size / 2; } }
+        public float CenterY { get { return Y + Size / 2; } }
+        protected float Size { get; set; }
+        protected float Velocity { get; set; }
         public int Hp { get; protected set; }
         protected int maxHp;
-        protected float velocity;
         protected Color colour;
-        public const float size = 30;
         /// <summary>
         /// Creates a new subject.
         /// </summary>
@@ -48,21 +36,21 @@ namespace HraStrelba
         /// <param name="gr"></param>
         public virtual void Draw(Graphics gr)
         {
-            gr.FillEllipse(new SolidBrush(colour), X, Y, size, size);
+            gr.FillEllipse(new SolidBrush(colour), X, Y, Size, Size);
             //Health bar
             float hpRate = 360 - ((float)Hp / maxHp) * 360;
-            gr.FillPie(Brushes.Red, X + size / 8, Y + size / 8, size * 3 / 4, size * 3 / 4, 270, hpRate);
+            gr.FillPie(Brushes.Red, X + Size / 8, Y + Size / 8, Size * 3 / 4, Size * 3 / 4, 270, hpRate);
         }
         /// <summary>
-        /// Moves the subject in a given direction with a given speed.
+        /// Moves the subject in a given direction.
         /// </summary>
         /// <param name="right"></param>
         /// <param name="left"></param>
         /// <param name="up"></param>
         /// <param name="down"></param>
-        /// <param name="v">Velocity of the subject</param>
-        protected void Move(bool right, bool left, bool up, bool down, float v)
+        public virtual void Move(bool right, bool left, bool up, bool down)
         {
+            float v = Velocity;
             float Dx = 0;
             float Dy = 0;
             if ((right || left) && (up || down)) //same diagonal speed as horizontal/vertical

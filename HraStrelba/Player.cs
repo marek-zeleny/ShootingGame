@@ -10,7 +10,10 @@ namespace HraStrelba
     {
         public float GunX { get; private set; }
         public float GunY { get; private set; }
+        public const float size = 30;
         public const float gunSize = 30;
+        public const int hp = 10;
+        public const float velocity = 4;
         protected int xMax, yMax; //borders of the client
         /// <summary>
         /// Creates a new player.
@@ -22,12 +25,13 @@ namespace HraStrelba
         public Player(float x, float y, int xMax, int yMax)
             : base(x, y)
         {
-            velocity = 4;
-            Hp = 30;
-            maxHp = Hp;
-            colour = Color.Blue;
             this.xMax = xMax;
             this.yMax = yMax;
+            Size = size;
+            Hp = hp;
+            maxHp = Hp;
+            Velocity = velocity;
+            colour = Color.Blue;
         }
         /// <summary>
         /// Draws the player.
@@ -56,9 +60,9 @@ namespace HraStrelba
         /// <param name="left"></param>
         /// <param name="up"></param>
         /// <param name="down"></param>
-        public void Move(bool right, bool left, bool up, bool down)
+        public override void Move(bool right, bool left, bool up, bool down)
         {
-            base.Move(right, left, up, down, velocity);
+            base.Move(right, left, up, down);
             if (X < 0) //window border
                 X = 0;
             if (X + size > xMax)

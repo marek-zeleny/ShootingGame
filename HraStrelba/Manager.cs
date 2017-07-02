@@ -37,7 +37,7 @@ namespace HraStrelba
 
         private Random r = new Random();
         /// <summary>
-        /// Creates an instance of the manager.
+        /// Creates an instance of the manager and prepares the game.
         /// </summary>
         /// <param name="width">Width of the client</param>
         /// <param name="height">Height of the client</param>
@@ -45,11 +45,12 @@ namespace HraStrelba
         {
             Width = width;
             Height = height;
+            Load();
         }
         /// <summary>
         /// Prepares everything necessary to start the game.
         /// </summary>
-        public void Load()
+        private void Load()
         {
             int x = r.Next(Width - (int)Player.size);
             int y = r.Next(Height - (int)Player.size);

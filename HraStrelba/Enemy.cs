@@ -8,11 +8,15 @@ namespace HraStrelba
 {
     class Enemy: Subject
     {
+        public const float size = 30;
+        public const int hp = 5;
+
         public Enemy(float x, float y, float velocity)
             : base(x, y)
         {
-            this.velocity = velocity;
-            Hp = 8;
+            this.Velocity = velocity;
+            Size = size;
+            Hp = hp;
             maxHp = Hp;
             colour = Color.Yellow;
         }
@@ -23,11 +27,11 @@ namespace HraStrelba
         /// <param name="playerY">Y coordinate of player's current position</param>
         public void Move(float playerX, float playerY)
         {
-            bool right = (playerX - CenterX > velocity);
-            bool left = (playerX - CenterX < -velocity);
-            bool down = (playerY - CenterY > velocity);
-            bool up = (playerY - CenterY < -velocity);
-            base.Move(right, left, up, down, velocity);
+            bool right = (playerX - CenterX > Velocity);
+            bool left = (playerX - CenterX < -Velocity);
+            bool down = (playerY - CenterY > Velocity);
+            bool up = (playerY - CenterY < -Velocity);
+            base.Move(right, left, up, down);
         }
         /// <summary>
         /// Checks whether the enemy got hit by a player's shot.
@@ -38,7 +42,7 @@ namespace HraStrelba
         public bool Hit(float shotCenterX, float shotCenterY)
         {
             float distance = Methods.Distance(CenterX, CenterY, shotCenterX, shotCenterY);
-            if (distance < size / 2 + Shot.size / 2)
+            if (distance < Size / 2 + Shot.size / 2)
             {
                 Hp--;
                 return true;

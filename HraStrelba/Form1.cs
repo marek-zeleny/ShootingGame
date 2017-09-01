@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace HraStrelba
+namespace ShootingGame
 {
     public partial class Form1 : Form
     {
@@ -55,7 +55,7 @@ namespace HraStrelba
         {
             if (e.Button == MouseButtons.Left)
             {
-                TimerShoot.Enabled = true;
+                manager.shootingEnabled = true;
                 manager.Shoot();
             }
         }
@@ -63,7 +63,7 @@ namespace HraStrelba
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                TimerShoot.Enabled = false;
+                manager.shootingEnabled = false;
         }
 
         private void TimerMovement_Tick(object sender, EventArgs e)

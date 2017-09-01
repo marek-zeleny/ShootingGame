@@ -4,22 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace HraStrelba
+namespace ShootingGame
 {
     /// <summary>
     /// Mother class for player and enemies
     /// </summary>
     class Subject
     {
+        /// <summary>
+        /// X coordinate of the center of the subject
+        /// </summary>
         public float X { get; protected set; }
+        /// <summary>
+        /// X coordinate of the center of the subject
+        /// </summary>
         public float Y { get; protected set; }
-        public float CenterX { get { return X + Size / 2; } }
-        public float CenterY { get { return Y + Size / 2; } }
-        protected float Size { get; set; }
+        public float CornerX { get { return X - Size / 2; } }
+        public float CornerY { get { return Y - Size / 2; } }
+        public float Size { get; protected set; }
+        public int Damage { get; protected set; }
         protected float Velocity { get; set; }
-        public int Hp { get; protected set; }
-        protected int maxHp;
-        protected Color colour;
+        protected Color Colour { get; set; }
+
         /// <summary>
         /// Creates a new subject.
         /// </summary>
@@ -36,10 +42,7 @@ namespace HraStrelba
         /// <param name="gr"></param>
         public virtual void Draw(Graphics gr)
         {
-            gr.FillEllipse(new SolidBrush(colour), X, Y, Size, Size);
-            //Health bar
-            float hpRate = 360 - ((float)Hp / maxHp) * 360;
-            gr.FillPie(Brushes.Red, X + Size / 8, Y + Size / 8, Size * 3 / 4, Size * 3 / 4, 270, hpRate);
+            gr.FillEllipse(new SolidBrush(Colour), CornerX, CornerY, Size, Size);
         }
         /// <summary>
         /// Moves the subject in a given direction.

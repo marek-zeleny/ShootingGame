@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace HraStrelba
+namespace ShootingGame
 {
     /// <summary>
-    /// Class managing objects and their processes and ensuring communication with the form
+    /// Class managing objects and ensuring communication with the form
     /// </summary>
     class Manager
     {
@@ -35,7 +35,10 @@ namespace HraStrelba
         private bool up = false;
         private bool down = false;
 
+        public bool shootingEnabled = false;
+
         private Random r = new Random();
+
         /// <summary>
         /// Creates an instance of the manager and prepares the game.
         /// </summary>
@@ -52,8 +55,8 @@ namespace HraStrelba
         /// </summary>
         private void Load()
         {
-            int x = r.Next(Width - (int)Player.size);
-            int y = r.Next(Height - (int)Player.size);
+            int x = Width / 2;
+            int y = Height / 2;
             player = new Player(x, y, Width, Height);
             for (int i = 0; i < 100; i++)
             {
@@ -61,13 +64,11 @@ namespace HraStrelba
                 playerHistoryY.Insert(0, y);
             }
 
-            float v = 2; //velocity
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
-                x = r.Next(Width - (int)Player.size);
-                y = r.Next(Height - (int)Player.size);
-                enemies.Add(new Enemy(x, y, v));
-                v += 0.6F;
+                x = r.Next(Width);
+                y = r.Next(Height);
+                enemies.Add(new Enemy1(x, y));
             }
         }
         /// <summary>
@@ -110,8 +111,11 @@ namespace HraStrelba
         /// </summary>
         public void Shoot()
         {
-            Shot s = new Shot(player.GunX, player.GunY, player.CenterX, player.CenterY);
-            shots.Add(s);
+            if (player.Shoot(shootingEnabled))
+            {
+                Shot s = new Shot(player.GunX, player.GunY, player.X, player.Y);
+                shots.Add(s);
+            }
         }
         /// <summary>
         /// Draws all objects on the form.
@@ -133,11 +137,11 @@ namespace HraStrelba
             player.Move(right, left, up, down);
             playerHistoryX.RemoveAt(playerHistoryX.Count - 1);
             playerHistoryY.RemoveAt(playerHistoryY.Count - 1);
-            playerHistoryX.Insert(0, player.CenterX);
-            playerHistoryY.Insert(0, player.CenterY);
+            playerHistoryX.Insert(0, player.X);
+            playerHistoryY.Insert(0, player.Y);
             foreach (Enemy e in enemies)
             {
-                int i = (int)(Methods.Distance(player.CenterX, player.CenterY, e.CenterX, e.CenterY) / 10) - 1;
+                int i = (int)(Methods.Distance(player.X, player.Y, e.X, e.Y) / 10) - 1;
                 if (i > 100)
                     i = 100;
                 else if (i < 0)
@@ -149,7 +153,7 @@ namespace HraStrelba
             foreach (Shot s in shots)
             {
                 s.Move();
-                if (s.X < -Shot.size || s.Y < -Shot.size || s.X > Width || s.Y > Height)
+                if (s.X < -s.Size || s.Y < -s.Size || s.X > Width + s.Size || s.Y > Height + s.Size)
                     deleteShots.Add(s);
             }
 
@@ -157,11 +161,15 @@ namespace HraStrelba
             foreach (Enemy e in enemies)
             {
                 foreach (Shot s in shots)
-                    if (e.Hit(s.CenterX, s.CenterY))
+                    if (e.Hit(s))
                         deleteShots.Add(s);
                 if (e.Hp <= 0)
                     deleteEnemies.Add(e);
             }
+
+            foreach (Enemy e in enemies)
+                if (player.Hit(e))
+                    deleteEnemies.Add(e);
 
             foreach (Shot s in deleteShots)
                 shots.Remove(s);

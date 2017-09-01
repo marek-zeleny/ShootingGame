@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HraStrelba
+namespace ShootingGame
 {
     /// <summary>
     /// Class containing additional methods used in the programm

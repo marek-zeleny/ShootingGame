@@ -4,21 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace HraStrelba
+namespace ShootingGame
 {
     class Enemy: Subject
     {
-        public const float size = 30;
-        public const int hp = 5;
+        public int Hp { get; protected set; }
+        protected int MaxHp { get { return maxHp; } set { maxHp = value; Hp = maxHp; } }
+        protected int maxHp;
 
-        public Enemy(float x, float y, float velocity)
+        public Enemy(float x, float y)
             : base(x, y)
         {
-            this.Velocity = velocity;
-            Size = size;
-            Hp = hp;
-            maxHp = Hp;
-            colour = Color.Yellow;
+        }
+        /// <summary>
+        /// Draws the enemy.
+        /// </summary>
+        /// <param name="gr"></param>
+        public override void Draw(Graphics gr)
+        {
+            base.Draw(gr);
+            //Health bar
+            float hpRate = 360 - ((float)Hp / MaxHp) * 360;
+            gr.FillPie(Brushes.Red, CornerX + Size / 8, CornerY + Size / 8, Size * 3 / 4, Size * 3 / 4, 270, hpRate);
         }
         /// <summary>
         /// Moves the enemy.
@@ -27,10 +34,10 @@ namespace HraStrelba
         /// <param name="playerY">Y coordinate of player's current position</param>
         public void Move(float playerX, float playerY)
         {
-            bool right = (playerX - CenterX > Velocity);
-            bool left = (playerX - CenterX < -Velocity);
-            bool down = (playerY - CenterY > Velocity);
-            bool up = (playerY - CenterY < -Velocity);
+            bool right = (playerX - X > Velocity);
+            bool left = (playerX - X < -Velocity);
+            bool down = (playerY - Y > Velocity);
+            bool up = (playerY - Y < -Velocity);
             base.Move(right, left, up, down);
         }
         /// <summary>
@@ -39,12 +46,12 @@ namespace HraStrelba
         /// <param name="shotCenterX">X coordinate of the center of the shot</param>
         /// <param name="shotCenterY">Y coordinate of the center of the shot</param>
         /// <returns>True if the enemy got hit</returns>
-        public bool Hit(float shotCenterX, float shotCenterY)
+        public virtual bool Hit(Subject subject)
         {
-            float distance = Methods.Distance(CenterX, CenterY, shotCenterX, shotCenterY);
-            if (distance < Size / 2 + Shot.size / 2)
+            float distance = Methods.Distance(X, Y, subject.X, subject.Y);
+            if (distance <= Size / 2 + subject.Size / 2)
             {
-                Hp--;
+                Hp -= subject.Damage;
                 return true;
             }
             return false;

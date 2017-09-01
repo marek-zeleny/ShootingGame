@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace HraStrelba
+namespace ShootingGame
 {
-    class Player: Subject
+    class Player: Enemy
     {
         public float GunX { get; private set; }
         public float GunY { get; private set; }
-        public const float size = 30;
         public const float gunSize = 30;
-        public const int hp = 10;
-        public const float velocity = 4;
+        private float shootingSpeed = 1F;
+        private float reload = 0;
         protected int xMax, yMax; //borders of the client
+
         /// <summary>
         /// Creates a new player.
         /// </summary>
@@ -27,11 +27,11 @@ namespace HraStrelba
         {
             this.xMax = xMax;
             this.yMax = yMax;
-            Size = size;
-            Hp = hp;
-            maxHp = Hp;
-            Velocity = velocity;
-            colour = Color.Blue;
+            MaxHp = 10;
+            Hp = MaxHp;
+            Size = 30;
+            Velocity = 4;
+            Colour = Color.Blue;
         }
         /// <summary>
         /// Draws the player.
@@ -43,15 +43,15 @@ namespace HraStrelba
         {
             base.Draw(gr);
             //aimer
-            float Dx = mouseX - CenterX; //distance between mouse and player (center)
-            float Dy = mouseY - CenterY;
+            float Dx = mouseX - X; //distance between mouse and player (center)
+            float Dy = mouseY - Y;
             GunY = (Dy * gunSize) / (float)Math.Sqrt(Dx * Dx + Dy * Dy); //equation
             GunX = (float)Math.Sqrt(gunSize * gunSize - GunY * GunY);
-            GunX += CenterX; //position relative to the player (center)
-            GunY += CenterY;
+            GunX += X; //position relative to the player (center)
+            GunY += Y;
             if (Dx < 0) //correction of the consequence of squaring in the equation
-                GunX = 2 * CenterX - GunX;
-            gr.DrawLine(Pens.Black, CenterX, CenterY, GunX, GunY);
+                GunX = 2 * X - GunX;
+            gr.DrawLine(Pens.Black, X, Y, GunX, GunY);
         }
         /// <summary>
         /// Moves the player in a given direction.
@@ -63,14 +63,29 @@ namespace HraStrelba
         public override void Move(bool right, bool left, bool up, bool down)
         {
             base.Move(right, left, up, down);
-            if (X < 0) //window border
-                X = 0;
-            if (X + size > xMax)
-                X = xMax - size;
-            if (Y < 0)
-                Y = 0;
-            if (Y + size > yMax)
-                Y = yMax - size;
+            if (X < Size / 2) //window border
+                X = Size / 2;
+            if (X > xMax - Size / 2)
+                X = xMax - Size / 2;
+            if (Y < Size / 2)
+                Y = Size / 2;
+            if (Y > yMax - Size / 2)
+                Y = yMax - Size / 2;
+        }
+        /// <summary>
+        /// Reloads the gun and eventually fires a shot.
+        /// </summary>
+        /// <param name="fire">Decides whether to fire or just keep the gun loaded</param>
+        /// <returns>True to fire a shot.</returns>
+        public bool Shoot(bool fire)
+        {
+            reload += shootingSpeed;
+            if (reload >= 1 && fire)
+            {
+                reload = 0;
+                return true;
+            }
+            return false;
         }
     }
 }

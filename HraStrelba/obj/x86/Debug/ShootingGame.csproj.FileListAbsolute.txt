@@ -1,0 +1,7 @@
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\bin\Debug\HraStrelba.exe
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\bin\Debug\HraStrelba.pdb
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.Form1.resources
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.Properties.Resources.resources
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csproj.GenerateResource.Cache
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.exe
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.pdb

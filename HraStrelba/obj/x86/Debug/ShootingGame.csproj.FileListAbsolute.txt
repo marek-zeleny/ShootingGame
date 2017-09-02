@@ -5,3 +5,4 @@ C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csproj.GenerateResource.Cache
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.exe
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.pdb
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csprojResolveAssemblyReference.cache

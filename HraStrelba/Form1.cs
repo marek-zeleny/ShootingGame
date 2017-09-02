@@ -25,8 +25,7 @@ namespace ShootingGame
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
         {
-            manager.Width = ClientSize.Width;
-            manager.Height = ClientSize.Height;
+            manager.ClientSize(ClientSize.Width, ClientSize.Height);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -69,12 +68,18 @@ namespace ShootingGame
         private void TimerMovement_Tick(object sender, EventArgs e)
         {
             manager.Movement();
+            LabelInfo.Text = manager.Info();
             Refresh();
         }
 
         private void TimerShoot_Tick(object sender, EventArgs e)
         {
             manager.Shoot();
+        }
+
+        private void TimerLevel_Tick(object sender, EventArgs e)
+        {
+            manager.NextLevel();
         }
     }
 }

@@ -14,15 +14,18 @@ namespace ShootingGame
         /// <summary>
         /// Width of the client
         /// </summary>
-        public int Width { get; set; }
+        private int Width { get; set; }
         /// <summary>
         /// Height of the client
         /// </summary>
-        public int Height { get; set; }
+        private int Height { get; set; }
 
+        private int score = 0;
+        private int level = 1;
         private Player player;
         private List<Enemy> enemies = new List<Enemy>();
         private List<Shot> shots = new List<Shot>();
+        private List<Bonus> bonus = new List<Bonus>();
         //previous positions of the player
         private List<float> playerHistoryX = new List<float>();
         private List<float> playerHistoryY = new List<float>();
@@ -51,6 +54,18 @@ namespace ShootingGame
             Load();
         }
         /// <summary>
+        /// Applies a change in the client size.
+        /// </summary>
+        /// <param name="width">New width of the client</param>
+        /// <param name="height">New height of the client</param>
+        public void ClientSize(int width, int height)
+        {
+            Width = width;
+            Height = height;
+            player.XMax = width;
+            player.YMax = height;
+        }
+        /// <summary>
         /// Prepares everything necessary to start the game.
         /// </summary>
         private void Load()
@@ -63,13 +78,56 @@ namespace ShootingGame
                 playerHistoryX.Insert(0, x);
                 playerHistoryY.Insert(0, y);
             }
+            NextLevel();
+        }
+        /// <summary>
+        /// Sets up next level of the game.
+        /// </summary>
+        public void NextLevel()
+        {
+            int x = r.Next(Width);
+            int y = r.Next(Height);
 
-            for (int i = 0; i < 3; i++)
+            bonus.Add(new Bonus(x, y));
+
+            int count = 0;
+            float size = 0;
+            float velocity = 0;
+            int damage = 0;
+            int hp = 0;
+            int scoreValue = 0;
+            Color colour = Color.White;
+
+            if (level == 1)
+            {
+                count = 4;
+                size = 30;
+                velocity = 3;
+                damage = 1;
+                hp = 5;
+                scoreValue = 7;
+                colour = Color.Yellow;
+            }
+
+            if (level == 2)
+            {
+                count = 3;
+                size = 25;
+                velocity = 2.5F;
+                damage = 3;
+                hp = 8;
+                scoreValue = 10;
+                colour = Color.Violet;
+            }
+
+            for (int i = 0; i < count; i++)
             {
                 x = r.Next(Width);
                 y = r.Next(Height);
-                enemies.Add(new Enemy1(x, y));
+                enemies.Add(new Enemy1(x, y, size, velocity, damage, hp, scoreValue, colour));
             }
+
+            level++;
         }
         /// <summary>
         /// Processes a key press/release.
@@ -117,6 +175,12 @@ namespace ShootingGame
                 shots.Add(s);
             }
         }
+
+        public string Info()
+        {
+            string s = String.Format("Ammo: {0}\nScore: {1}", player.Ammo, score);
+            return s;
+        }
         /// <summary>
         /// Draws all objects on the form.
         /// </summary>
@@ -127,6 +191,8 @@ namespace ShootingGame
                 e.Draw(g);
             foreach (Shot s in shots)
                 s.Draw(g);
+            foreach (Bonus b in bonus)
+                b.Draw(g);
             player.Draw(g, mouseX, mouseY);
         }
         /// <summary>
@@ -142,14 +208,17 @@ namespace ShootingGame
             foreach (Enemy e in enemies)
             {
                 int i = (int)(Methods.Distance(player.X, player.Y, e.X, e.Y) / 10) - 1;
-                if (i > 100)
-                    i = 100;
+                if (i > 99)
+                    i = 99;
                 else if (i < 0)
                     i = 0;
                 e.Move(playerHistoryX[i], playerHistoryY[i]);
             }
 
+            List<Enemy> deleteEnemies = new List<Enemy>();
             List<Shot> deleteShots = new List<Shot>();
+            List<Bonus> deleteBonus = new List<Bonus>();
+
             foreach (Shot s in shots)
             {
                 s.Move();
@@ -157,24 +226,36 @@ namespace ShootingGame
                     deleteShots.Add(s);
             }
 
-            List<Enemy> deleteEnemies = new List<Enemy>();
             foreach (Enemy e in enemies)
             {
                 foreach (Shot s in shots)
                     if (e.Hit(s))
                         deleteShots.Add(s);
                 if (e.Hp <= 0)
+                {
                     deleteEnemies.Add(e);
+                    score += e.ScoreValue;
+                    player.Ammo += e.ScoreValue;
+                }
             }
 
             foreach (Enemy e in enemies)
                 if (player.Hit(e))
                     deleteEnemies.Add(e);
 
-            foreach (Shot s in deleteShots)
-                shots.Remove(s);
+            foreach (Bonus b in bonus)
+                if (player.Hit(b))
+                {
+                    player.AddBonus(b.Type);
+                    deleteBonus.Add(b);
+                }
+
             foreach (Enemy e in deleteEnemies)
                 enemies.Remove(e);
+            foreach (Shot s in deleteShots)
+                shots.Remove(s);
+            foreach (Bonus b in deleteBonus)
+                bonus.Remove(b);
         }
     }
 }

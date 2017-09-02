@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.TimerMovement = new System.Windows.Forms.Timer(this.components);
             this.TimerShoot = new System.Windows.Forms.Timer(this.components);
+            this.LabelInfo = new System.Windows.Forms.Label();
+            this.TimerLevel = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // TimerMovement
@@ -44,11 +46,28 @@
             this.TimerShoot.Enabled = true;
             this.TimerShoot.Tick += new System.EventHandler(this.TimerShoot_Tick);
             // 
+            // LabelInfo
+            // 
+            this.LabelInfo.AutoSize = true;
+            this.LabelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelInfo.Location = new System.Drawing.Point(12, 9);
+            this.LabelInfo.Name = "LabelInfo";
+            this.LabelInfo.Size = new System.Drawing.Size(0, 20);
+            this.LabelInfo.TabIndex = 0;
+            // 
+            // TimerLevel
+            // 
+            this.TimerLevel.Enabled = true;
+            this.TimerLevel.Interval = 20000;
+            this.TimerLevel.Tick += new System.EventHandler(this.TimerLevel_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.LabelInfo);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.DoubleBuffered = true;
             this.Name = "Form1";
@@ -63,6 +82,7 @@
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -70,6 +90,8 @@
 
         private System.Windows.Forms.Timer TimerMovement;
         private System.Windows.Forms.Timer TimerShoot;
+        private System.Windows.Forms.Label LabelInfo;
+        private System.Windows.Forms.Timer TimerLevel;
     }
 }
 

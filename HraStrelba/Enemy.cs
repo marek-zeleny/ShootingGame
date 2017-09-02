@@ -6,8 +6,9 @@ using System.Drawing;
 
 namespace ShootingGame
 {
-    class Enemy: Subject
+    class Enemy: Object
     {
+        public int ScoreValue { get; protected set; }
         public int Hp { get; protected set; }
         protected int MaxHp { get { return maxHp; } set { maxHp = value; Hp = maxHp; } }
         protected int maxHp;
@@ -46,7 +47,7 @@ namespace ShootingGame
         /// <param name="shotCenterX">X coordinate of the center of the shot</param>
         /// <param name="shotCenterY">Y coordinate of the center of the shot</param>
         /// <returns>True if the enemy got hit</returns>
-        public virtual bool Hit(Subject subject)
+        public virtual bool Hit(Object subject)
         {
             float distance = Methods.Distance(X, Y, subject.X, subject.Y);
             if (distance <= Size / 2 + subject.Size / 2)

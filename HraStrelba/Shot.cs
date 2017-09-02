@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace ShootingGame
 {
-    class Shot: Subject
+    class Shot: Object
     {
         private float vX, vY;
 

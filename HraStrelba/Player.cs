@@ -11,9 +11,11 @@ namespace ShootingGame
         public float GunX { get; private set; }
         public float GunY { get; private set; }
         public const float gunSize = 30;
-        private float shootingSpeed = 1F;
+        public int Ammo { get; set; }
+        private float shootingSpeed = 0.2F;
         private float reload = 0;
-        protected int xMax, yMax; //borders of the client
+        public int XMax { get; set; } //borders of the client
+        public int YMax { get; set; }
 
         /// <summary>
         /// Creates a new player.
@@ -25,13 +27,13 @@ namespace ShootingGame
         public Player(float x, float y, int xMax, int yMax)
             : base(x, y)
         {
-            this.xMax = xMax;
-            this.yMax = yMax;
-            MaxHp = 10;
-            Hp = MaxHp;
             Size = 30;
             Velocity = 4;
+            MaxHp = 5;
+            Ammo = 10;
             Colour = Color.Blue;
+            XMax = xMax;
+            YMax = yMax;
         }
         /// <summary>
         /// Draws the player.
@@ -65,12 +67,12 @@ namespace ShootingGame
             base.Move(right, left, up, down);
             if (X < Size / 2) //window border
                 X = Size / 2;
-            if (X > xMax - Size / 2)
-                X = xMax - Size / 2;
+            if (X > XMax - Size / 2)
+                X = XMax - Size / 2;
             if (Y < Size / 2)
                 Y = Size / 2;
-            if (Y > yMax - Size / 2)
-                Y = yMax - Size / 2;
+            if (Y > YMax - Size / 2)
+                Y = YMax - Size / 2;
         }
         /// <summary>
         /// Reloads the gun and eventually fires a shot.
@@ -80,12 +82,33 @@ namespace ShootingGame
         public bool Shoot(bool fire)
         {
             reload += shootingSpeed;
-            if (reload >= 1 && fire)
+            if (reload >= 1 && Ammo > 0 && fire)
             {
                 reload = 0;
+                Ammo--;
                 return true;
             }
             return false;
+        }
+
+        public void AddBonus(string type)
+        {
+            switch (type)
+            {
+                case "ExtraAmmo":
+                    Ammo += 10;
+                    break;
+                case "RapidFire":
+                    shootingSpeed = 1;
+                    break;
+                case "Shotgun":
+                    break;
+                case "Heal":
+                    Hp += 1;
+                    break;
+                case "":
+                    break;
+            }
         }
     }
 }

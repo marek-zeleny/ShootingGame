@@ -20,6 +20,8 @@ namespace ShootingGame
         /// </summary>
         private int Height { get; set; }
 
+        private Form1 form;
+
         private int score = 0;
         private int level = 1;
         private Player player;
@@ -47,10 +49,12 @@ namespace ShootingGame
         /// </summary>
         /// <param name="width">Width of the client</param>
         /// <param name="height">Height of the client</param>
-        public Manager(int width, int height)
+        /// <param name="form">Instance of the active form</param>
+        public Manager(int width, int height, Form1 form)
         {
             Width = width;
             Height = height;
+            this.form = form;
             Load();
         }
         /// <summary>
@@ -175,10 +179,13 @@ namespace ShootingGame
                 shots.Add(s);
             }
         }
-
+        /// <summary>
+        /// Refreshes information about the currently played game.
+        /// </summary>
+        /// <returns>Player's score and ammo as string.</returns>
         public string Info()
         {
-            string s = String.Format("Ammo: {0}\nScore: {1}", player.Ammo, score);
+            string s = String.Format("Score: {0}\nAmmo: {1}", score, player.Ammo);
             return s;
         }
         /// <summary>
@@ -247,6 +254,7 @@ namespace ShootingGame
                 if (player.Hit(b))
                 {
                     player.AddBonus(b.Type);
+                    form.Bonus(b.Type);
                     deleteBonus.Add(b);
                 }
 

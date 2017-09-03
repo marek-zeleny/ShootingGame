@@ -95,10 +95,10 @@ namespace ShootingGame
         {
             switch (type)
             {
-                case "ExtraAmmo":
+                case "Extra Ammo":
                     Ammo += 10;
                     break;
-                case "RapidFire":
+                case "Rapid Fire":
                     shootingSpeed = 1;
                     break;
                 case "Shotgun":

@@ -20,7 +20,7 @@ namespace ShootingGame
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            manager = new Manager(ClientSize.Width, ClientSize.Height);
+            manager = new Manager(ClientSize.Width, ClientSize.Height, this);
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
@@ -80,6 +80,22 @@ namespace ShootingGame
         private void TimerLevel_Tick(object sender, EventArgs e)
         {
             manager.NextLevel();
+        }
+
+        private void TimerBonus_Tick(object sender, EventArgs e)
+        {
+            LabelBonus.Text = "";
+            TimerBonus.Enabled = false;
+        }
+        /// <summary>
+        /// Informs about a new active bonus.
+        /// </summary>
+        /// <param name="bonusType">Type of the bonus</param>
+        public void Bonus(string bonusType)
+        {
+            LabelBonus.Text = String.Format("Bonus: {0}", bonusType);
+            LabelBonus.Left = ClientSize.Width / 2 - LabelBonus.Width / 2;
+            TimerBonus.Enabled = true;
         }
     }
 }

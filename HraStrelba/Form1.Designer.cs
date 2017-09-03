@@ -33,6 +33,8 @@
             this.TimerShoot = new System.Windows.Forms.Timer(this.components);
             this.LabelInfo = new System.Windows.Forms.Label();
             this.TimerLevel = new System.Windows.Forms.Timer(this.components);
+            this.LabelBonus = new System.Windows.Forms.Label();
+            this.TimerBonus = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // TimerMovement
@@ -61,12 +63,27 @@
             this.TimerLevel.Interval = 20000;
             this.TimerLevel.Tick += new System.EventHandler(this.TimerLevel_Tick);
             // 
+            // LabelBonus
+            // 
+            this.LabelBonus.AutoSize = true;
+            this.LabelBonus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelBonus.Location = new System.Drawing.Point(286, 9);
+            this.LabelBonus.Name = "LabelBonus";
+            this.LabelBonus.Size = new System.Drawing.Size(0, 20);
+            this.LabelBonus.TabIndex = 1;
+            // 
+            // TimerBonus
+            // 
+            this.TimerBonus.Interval = 3000;
+            this.TimerBonus.Tick += new System.EventHandler(this.TimerBonus_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.LabelBonus);
             this.Controls.Add(this.LabelInfo);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.DoubleBuffered = true;
@@ -92,6 +109,8 @@
         private System.Windows.Forms.Timer TimerShoot;
         private System.Windows.Forms.Label LabelInfo;
         private System.Windows.Forms.Timer TimerLevel;
+        private System.Windows.Forms.Label LabelBonus;
+        private System.Windows.Forms.Timer TimerBonus;
     }
 }
 

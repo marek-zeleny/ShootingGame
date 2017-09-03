@@ -27,10 +27,10 @@ namespace ShootingGame
             switch (i)
             {
                 case 0:
-                    Type = "ExtraAmmo";
+                    Type = "Extra Ammo";
                     break;
                 case 1:
-                    Type = "RapidFire";
+                    Type = "Rapid Fire";
                     break;
                 case 2:
                     Type = "Shotgun";

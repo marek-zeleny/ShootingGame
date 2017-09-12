@@ -11,9 +11,10 @@ namespace ShootingGame
         public float GunX { get; private set; }
         public float GunY { get; private set; }
         public const float gunSize = 30;
-        public int Ammo { get; set; }
-        private float shootingSpeed = 0.2F;
+        private float shootingSpeed = 0.3F;
         private float reload = 0;
+        public int Ammo { get; private set; }
+        public int Score { get; private set; }
         public int XMax { get; set; } //borders of the client
         public int YMax { get; set; }
 
@@ -29,8 +30,10 @@ namespace ShootingGame
         {
             Size = 30;
             Velocity = 4;
-            MaxHp = 5;
+            Damage = 100;
+            MaxHp = 10;
             Ammo = 10;
+            Score = 0;
             Colour = Color.Blue;
             XMax = xMax;
             YMax = yMax;
@@ -90,10 +93,46 @@ namespace ShootingGame
             }
             return false;
         }
-
-        public void AddBonus(string type)
+        /// <summary>
+        /// Checks wheter the player touches another object.
+        /// </summary>
+        /// <param name="obj">The other object being checked</param>
+        /// <returns>True if the player dies consequently</returns>
+        public override bool TouchesAnotherObject(Object obj)
         {
-            switch (type)
+            float distance = Methods.Distance(X, Y, obj.X, obj.Y);
+            if (obj is Bonus)
+                if (distance <= (Size + obj.Size) / 2)
+                {
+                    Bonus bonus = (Bonus)obj;
+                    NewBonusEffect(bonus.Effect);
+                }
+            if (obj is Enemy)
+                if (distance <= (Size + obj.Size) / 2)
+                {
+                    Hp -= obj.Damage;
+                    Ammo += 1;
+                }
+            if (Hp <= 0)
+                return true;
+            return false;
+        }
+        /// <summary>
+        /// Increases score and ammo when an enemy is killed.
+        /// </summary>
+        /// <param name="enemy">Killed enemy</param>
+        public void EnemyKilled(Enemy enemy)
+        {
+            Score += enemy.ScoreValue;
+            Ammo += enemy.MaxHp + 1;
+        }
+        /// <summary>
+        /// Adds an effect of a picked up bonus.
+        /// </summary>
+        /// <param name="effect">Effect of the bonus</param>
+        private void NewBonusEffect(string effect)
+        {
+            switch (effect)
             {
                 case "Extra Ammo":
                     Ammo += 10;

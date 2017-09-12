@@ -1,6 +1,6 @@
 ﻿namespace ShootingGame
 {
-    partial class Form1
+    partial class FormGame
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@
             this.LabelInfo = new System.Windows.Forms.Label();
             this.TimerLevel = new System.Windows.Forms.Timer(this.components);
             this.LabelBonus = new System.Windows.Forms.Label();
-            this.TimerBonus = new System.Windows.Forms.Timer(this.components);
+            this.TimerInfo = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // TimerMovement
@@ -72,10 +72,10 @@
             this.LabelBonus.Size = new System.Drawing.Size(0, 20);
             this.LabelBonus.TabIndex = 1;
             // 
-            // TimerBonus
+            // TimerInfo
             // 
-            this.TimerBonus.Interval = 3000;
-            this.TimerBonus.Tick += new System.EventHandler(this.TimerBonus_Tick);
+            this.TimerInfo.Interval = 3000;
+            this.TimerInfo.Tick += new System.EventHandler(this.TimerBonus_Tick);
             // 
             // Form1
             // 
@@ -108,9 +108,9 @@
         private System.Windows.Forms.Timer TimerMovement;
         private System.Windows.Forms.Timer TimerShoot;
         private System.Windows.Forms.Label LabelInfo;
-        private System.Windows.Forms.Timer TimerLevel;
         private System.Windows.Forms.Label LabelBonus;
-        private System.Windows.Forms.Timer TimerBonus;
+        private System.Windows.Forms.Timer TimerInfo;
+        public System.Windows.Forms.Timer TimerLevel;
     }
 }
 

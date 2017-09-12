@@ -23,6 +23,7 @@ namespace ShootingGame
             Size = 6;
             Velocity = 6;
             Damage = 1;
+            MaxHp = 1;
             Colour = Color.Black;
             vX = (X - playerX) * (Velocity / Player.gunSize);
             vY = (Y - playerY) * (Velocity / Player.gunSize);

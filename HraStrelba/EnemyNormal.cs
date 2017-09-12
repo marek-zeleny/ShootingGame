@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace ShootingGame
 {
-    class Enemy1: Enemy
+    class EnemyNormal: Enemy
     {
-        public Enemy1(float x, float y, float size, float velocity, int damage, int hp, int scoreValue, Color colour)
+        public EnemyNormal(float x, float y, float size, float velocity, int damage, int hp, int scoreValue, Color colour)
             : base(x, y)
         {
             Size = size;

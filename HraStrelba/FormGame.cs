@@ -9,93 +9,102 @@ using System.Windows.Forms;
 
 namespace ShootingGame
 {
-    public partial class Form1 : Form
+    public partial class FormGame : Form
     {
-        private Manager manager;
+        private GameManager gameManager;
+        public int finalScore;
+        public int finalLevel;
 
-        public Form1()
+        public FormGame()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            manager = new Manager(ClientSize.Width, ClientSize.Height, this);
+            gameManager = new GameManager(ClientSize.Width, ClientSize.Height, this);
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
         {
-            manager.ClientSize(ClientSize.Width, ClientSize.Height);
+            gameManager.SetClientSize(ClientSize.Width, ClientSize.Height);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            manager.Paint(e.Graphics);
+            gameManager.PaintAll(e.Graphics);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            manager.Key((ConsoleKey)e.KeyCode, true);
+            gameManager.KeyPressRelease((ConsoleKey)e.KeyCode, true);
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            manager.Key((ConsoleKey)e.KeyCode, false);
+            gameManager.KeyPressRelease((ConsoleKey)e.KeyCode, false);
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             float x = e.X - ClientRectangle.X;
             float y = e.Y - ClientRectangle.Y;
-            manager.Aim(x, y);
+            gameManager.SetMousePosition(x, y);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                manager.shootingEnabled = true;
-                manager.Shoot();
+                gameManager.shootingEnabled = true;
+                gameManager.PlayerShoot();
             }
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                manager.shootingEnabled = false;
+                gameManager.shootingEnabled = false;
         }
 
         private void TimerMovement_Tick(object sender, EventArgs e)
         {
-            manager.Movement();
-            LabelInfo.Text = manager.Info();
+            gameManager.MoveAll();
+            LabelInfo.Text = gameManager.GetScoreAmmoHpInfo();
             Refresh();
         }
 
         private void TimerShoot_Tick(object sender, EventArgs e)
         {
-            manager.Shoot();
+            gameManager.PlayerShoot();
         }
 
         private void TimerLevel_Tick(object sender, EventArgs e)
         {
-            manager.NextLevel();
+            gameManager.NextLevel();
         }
 
         private void TimerBonus_Tick(object sender, EventArgs e)
         {
             LabelBonus.Text = "";
-            TimerBonus.Enabled = false;
+            TimerInfo.Enabled = false;
         }
         /// <summary>
         /// Informs about a new active bonus.
         /// </summary>
         /// <param name="bonusType">Type of the bonus</param>
-        public void Bonus(string bonusType)
+        public void WriteInfo(string text)
         {
-            LabelBonus.Text = String.Format("Bonus: {0}", bonusType);
+            LabelBonus.Text = text;
             LabelBonus.Left = ClientSize.Width / 2 - LabelBonus.Width / 2;
-            TimerBonus.Enabled = true;
+            TimerInfo.Enabled = true;
+        }
+
+        public void GameOver(int finalScore, int finalLevel)
+        {
+            this.finalScore = finalScore;
+            this.finalLevel = finalLevel;
+            Close();
         }
     }
 }

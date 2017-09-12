@@ -8,38 +8,45 @@ namespace ShootingGame
 {
     class Bonus: Object
     {
-        public string Type { get; private set; }
-
+        public string Effect { get; private set; }
+        /// <summary>
+        /// Creates a new bonus.
+        /// </summary>
+        /// <param name="x">Starting X coordinate</param>
+        /// <param name="y">Starting Y coordinate</param>
         public Bonus(float x, float y)
             : base(x, y)
         {
             Size = 25;
             Damage = 0;
+            MaxHp = 1;
             Colour = Color.Green;
-            SelectType();
+            SelectEffect();
         }
-
-        private void SelectType()
+        /// <summary>
+        /// Randomly selects an effect granted by the bonus.
+        /// </summary>
+        private void SelectEffect()
         {
             Random r = new Random();
-            int i = r.Next(5);
+            int i = r.Next(4);
 
             switch (i)
             {
                 case 0:
-                    Type = "Extra Ammo";
+                    Effect = "Extra Ammo";
                     break;
                 case 1:
-                    Type = "Rapid Fire";
+                    Effect = "Rapid Fire";
                     break;
                 case 2:
-                    Type = "Shotgun";
+                    Effect = "Shotgun";
                     break;
                 case 3:
-                    Type = "Heal";
+                    Effect = "Heal";
                     break;
                 case 4:
-                    Type = "";
+                    Effect = "";
                     break;
             }
         }

@@ -9,9 +9,6 @@ namespace ShootingGame
     class Enemy: Object
     {
         public int ScoreValue { get; protected set; }
-        public int Hp { get; protected set; }
-        protected int MaxHp { get { return maxHp; } set { maxHp = value; Hp = maxHp; } }
-        protected int maxHp;
 
         public Enemy(float x, float y)
             : base(x, y)
@@ -29,33 +26,33 @@ namespace ShootingGame
             gr.FillPie(Brushes.Red, CornerX + Size / 8, CornerY + Size / 8, Size * 3 / 4, Size * 3 / 4, 270, hpRate);
         }
         /// <summary>
-        /// Moves the enemy.
+        /// Moves the enemy towards or away from a given point.
         /// </summary>
-        /// <param name="playerX">X coordinate of player's current position</param>
-        /// <param name="playerY">Y coordinate of player's current position</param>
-        public void Move(float playerX, float playerY)
+        /// <param name="playerX">X coordinate of the guiding point</param>
+        /// <param name="playerY">Y coordinate of the guiding point</param>
+        /// <param name="towards">True for moving towards the point, fals for moving away</param>
+        public void Move(float playerX, float playerY, bool towards)
         {
             bool right = (playerX - X > Velocity);
             bool left = (playerX - X < -Velocity);
             bool down = (playerY - Y > Velocity);
             bool up = (playerY - Y < -Velocity);
-            base.Move(right, left, up, down);
+            if (towards)
+                base.Move(right, left, up, down);
+            else
+                base.Move(!right, !left, !up, !down);
         }
-        /// <summary>
-        /// Checks whether the enemy got hit by a player's shot.
-        /// </summary>
-        /// <param name="shotCenterX">X coordinate of the center of the shot</param>
-        /// <param name="shotCenterY">Y coordinate of the center of the shot</param>
-        /// <returns>True if the enemy got hit</returns>
-        public virtual bool Hit(Object subject)
+
+        public override bool TouchesAnotherObject(Object obj)
         {
-            float distance = Methods.Distance(X, Y, subject.X, subject.Y);
-            if (distance <= Size / 2 + subject.Size / 2)
+            float distance = Methods.Distance(X, Y, obj.X, obj.Y);
+            if (obj is Enemy && !(obj is Player))
             {
-                Hp -= subject.Damage;
-                return true;
+                if (distance < (Size + obj.Size) / 2)
+                    Move(obj.X, obj.Y, false);
+                return false;
             }
-            return false;
+            return base.TouchesAnotherObject(obj);
         }
     }
 }

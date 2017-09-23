@@ -31,9 +31,10 @@
             this.ButtonPlay = new System.Windows.Forms.Button();
             this.ButtonHighscores = new System.Windows.Forms.Button();
             this.ButtonCredits = new System.Windows.Forms.Button();
-            this.LabelInfo = new System.Windows.Forms.Label();
             this.ButtonEndGame = new System.Windows.Forms.Button();
             this.ButtonBack = new System.Windows.Forms.Button();
+            this.LinkLabelInfo = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ButtonPlay
@@ -67,16 +68,7 @@
             this.ButtonCredits.TabIndex = 2;
             this.ButtonCredits.Text = "CREDITS";
             this.ButtonCredits.UseVisualStyleBackColor = true;
-            // 
-            // LabelInfo
-            // 
-            this.LabelInfo.AutoSize = true;
-            this.LabelInfo.Font = new System.Drawing.Font("Lucida Console", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelInfo.Location = new System.Drawing.Point(350, 50);
-            this.LabelInfo.Name = "LabelInfo";
-            this.LabelInfo.Size = new System.Drawing.Size(0, 21);
-            this.LabelInfo.TabIndex = 3;
-            this.LabelInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.ButtonCredits.Click += new System.EventHandler(this.ButtonCredits_Click);
             // 
             // ButtonEndGame
             // 
@@ -87,6 +79,7 @@
             this.ButtonEndGame.TabIndex = 4;
             this.ButtonEndGame.Text = "END GAME";
             this.ButtonEndGame.UseVisualStyleBackColor = true;
+            this.ButtonEndGame.Click += new System.EventHandler(this.ButtonEndGame_Click);
             // 
             // ButtonBack
             // 
@@ -100,17 +93,42 @@
             this.ButtonBack.Visible = false;
             this.ButtonBack.Click += new System.EventHandler(this.ButtonBack_Click);
             // 
+            // LinkLabelInfo
+            // 
+            this.LinkLabelInfo.AutoSize = true;
+            this.LinkLabelInfo.Font = new System.Drawing.Font("Lucida Console", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LinkLabelInfo.Location = new System.Drawing.Point(350, 50);
+            this.LinkLabelInfo.MaximumSize = new System.Drawing.Size(600, 0);
+            this.LinkLabelInfo.Name = "LinkLabelInfo";
+            this.LinkLabelInfo.Size = new System.Drawing.Size(0, 21);
+            this.LinkLabelInfo.TabIndex = 6;
+            this.LinkLabelInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Lucida Console", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(126, 93);
+            this.label1.MaximumSize = new System.Drawing.Size(600, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 21);
+            this.label1.TabIndex = 7;
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LinkLabelInfo);
             this.Controls.Add(this.ButtonBack);
             this.Controls.Add(this.ButtonEndGame);
-            this.Controls.Add(this.LabelInfo);
             this.Controls.Add(this.ButtonCredits);
             this.Controls.Add(this.ButtonHighscores);
             this.Controls.Add(this.ButtonPlay);
+            this.MaximumSize = new System.Drawing.Size(700, 700);
+            this.MinimumSize = new System.Drawing.Size(700, 700);
             this.Name = "FormMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormMenu";
@@ -125,8 +143,9 @@
         private System.Windows.Forms.Button ButtonPlay;
         private System.Windows.Forms.Button ButtonHighscores;
         private System.Windows.Forms.Button ButtonCredits;
-        private System.Windows.Forms.Label LabelInfo;
         private System.Windows.Forms.Button ButtonEndGame;
         private System.Windows.Forms.Button ButtonBack;
+        private System.Windows.Forms.LinkLabel LinkLabelInfo;
+        private System.Windows.Forms.Label label1;
     }
 }

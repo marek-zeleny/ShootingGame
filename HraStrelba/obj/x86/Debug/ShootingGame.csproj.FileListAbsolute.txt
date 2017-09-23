@@ -7,3 +7,4 @@ C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csprojResolveAssemblyReference.cache
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormGame.resources
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormMenu.resources
+C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormOpenning.resources

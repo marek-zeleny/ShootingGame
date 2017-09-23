@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.TimerMovement = new System.Windows.Forms.Timer(this.components);
             this.TimerShoot = new System.Windows.Forms.Timer(this.components);
-            this.LabelInfo = new System.Windows.Forms.Label();
+            this.LabelGameStats = new System.Windows.Forms.Label();
             this.TimerLevel = new System.Windows.Forms.Timer(this.components);
-            this.LabelBonus = new System.Windows.Forms.Label();
+            this.LabelInfo = new System.Windows.Forms.Label();
             this.TimerInfo = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -48,14 +48,14 @@
             this.TimerShoot.Enabled = true;
             this.TimerShoot.Tick += new System.EventHandler(this.TimerShoot_Tick);
             // 
-            // LabelInfo
+            // LabelGameStats
             // 
-            this.LabelInfo.AutoSize = true;
-            this.LabelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelInfo.Location = new System.Drawing.Point(12, 9);
-            this.LabelInfo.Name = "LabelInfo";
-            this.LabelInfo.Size = new System.Drawing.Size(0, 20);
-            this.LabelInfo.TabIndex = 0;
+            this.LabelGameStats.AutoSize = true;
+            this.LabelGameStats.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelGameStats.Location = new System.Drawing.Point(12, 9);
+            this.LabelGameStats.Name = "LabelGameStats";
+            this.LabelGameStats.Size = new System.Drawing.Size(0, 20);
+            this.LabelGameStats.TabIndex = 0;
             // 
             // TimerLevel
             // 
@@ -63,31 +63,33 @@
             this.TimerLevel.Interval = 20000;
             this.TimerLevel.Tick += new System.EventHandler(this.TimerLevel_Tick);
             // 
-            // LabelBonus
+            // LabelInfo
             // 
-            this.LabelBonus.AutoSize = true;
-            this.LabelBonus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelBonus.Location = new System.Drawing.Point(286, 9);
-            this.LabelBonus.Name = "LabelBonus";
-            this.LabelBonus.Size = new System.Drawing.Size(0, 20);
-            this.LabelBonus.TabIndex = 1;
+            this.LabelInfo.AutoSize = true;
+            this.LabelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabelInfo.Location = new System.Drawing.Point(286, 9);
+            this.LabelInfo.Name = "LabelInfo";
+            this.LabelInfo.Size = new System.Drawing.Size(0, 20);
+            this.LabelInfo.TabIndex = 1;
             // 
             // TimerInfo
             // 
             this.TimerInfo.Interval = 3000;
             this.TimerInfo.Tick += new System.EventHandler(this.TimerBonus_Tick);
             // 
-            // Form1
+            // FormGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(684, 661);
-            this.Controls.Add(this.LabelBonus);
             this.Controls.Add(this.LabelInfo);
+            this.Controls.Add(this.LabelGameStats);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.DoubleBuffered = true;
-            this.Name = "Form1";
+            this.MaximumSize = new System.Drawing.Size(700, 700);
+            this.MinimumSize = new System.Drawing.Size(700, 700);
+            this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -107,8 +109,8 @@
 
         private System.Windows.Forms.Timer TimerMovement;
         private System.Windows.Forms.Timer TimerShoot;
+        private System.Windows.Forms.Label LabelGameStats;
         private System.Windows.Forms.Label LabelInfo;
-        private System.Windows.Forms.Label LabelBonus;
         private System.Windows.Forms.Timer TimerInfo;
         public System.Windows.Forms.Timer TimerLevel;
     }

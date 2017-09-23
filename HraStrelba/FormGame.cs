@@ -70,7 +70,7 @@ namespace ShootingGame
         private void TimerMovement_Tick(object sender, EventArgs e)
         {
             gameManager.MoveAll();
-            LabelInfo.Text = gameManager.GetScoreAmmoHpInfo();
+            LabelGameStats.Text = gameManager.GetScoreAmmoHpInfo();
             Refresh();
         }
 
@@ -86,7 +86,7 @@ namespace ShootingGame
 
         private void TimerBonus_Tick(object sender, EventArgs e)
         {
-            LabelBonus.Text = "";
+            LabelInfo.Text = "";
             TimerInfo.Enabled = false;
         }
         /// <summary>
@@ -95,8 +95,8 @@ namespace ShootingGame
         /// <param name="bonusType">Type of the bonus</param>
         public void WriteInfo(string text)
         {
-            LabelBonus.Text = text;
-            LabelBonus.Left = ClientSize.Width / 2 - LabelBonus.Width / 2;
+            LabelInfo.Text = text;
+            LabelInfo.Left = ClientSize.Width / 2 - LabelInfo.Width / 2;
             TimerInfo.Enabled = true;
         }
 

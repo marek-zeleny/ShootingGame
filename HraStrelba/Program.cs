@@ -15,6 +15,7 @@ namespace ShootingGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new FormOpenning());
             Application.Run(new FormMenu());
         }
     }

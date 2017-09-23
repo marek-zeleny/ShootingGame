@@ -20,6 +20,7 @@ namespace ShootingGame
         public FormMenu()
         {
             InitializeComponent();
+            LinkLabelInfo.LinkArea = new LinkArea(0, 0);
             LoadHighscores();
         }
 
@@ -29,30 +30,44 @@ namespace ShootingGame
             formGame = new FormGame();
             formGame.ShowDialog();
             Show();
-            LabelInfo.Text = String.Format("Game over!\nYour score was {0} at level {1}.", formGame.finalScore, formGame.finalLevel);
-            LabelInfo.Left = (ClientSize.Width - LabelInfo.Width) / 2;
+            LinkLabelInfo.Text = String.Format("Game over!\nYour score was {0} at level {1}.", formGame.finalScore, formGame.finalLevel);
+            LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
             SaveScore(formGame.finalScore, formGame.finalLevel);
         }
 
         private void ButtonHighscores_Click(object sender, EventArgs e)
         {
-            ButtonPlay.Hide();
-            ButtonHighscores.Hide();
-            ButtonCredits.Hide();
-            ButtonEndGame.Hide();
-            ButtonBack.Show();
-
-            string text = "Date".PadLeft(13).PadRight(20) + "Score".PadLeft(12).PadRight(14) + "Level\n".PadLeft(6).PadRight(7);
+            ButtonClick();
+            string text = "\n\n\n\nHIGHSCORES\n\nScore" + "Level".PadLeft(8) + "Date  \n".PadLeft(20);
             int count = highscores.Count;
             if (count > maxHighscoresCount)
                 count = maxHighscoresCount;
 
             for (int i = 0; i < count; i++)
             {
-                text += Environment.NewLine + (i + 1).ToString().PadLeft(2) + ") " + highscores[i][2].PadRight(20) + highscores[i][0].PadLeft(8).PadRight(10) + highscores[i][1].PadLeft(4);
+                text += Environment.NewLine + (i + 1).ToString().PadLeft(2) + ") " + highscores[i][0].PadRight(8) + highscores[i][1].PadLeft(2).PadRight(8) + highscores[i][2].PadLeft(20);
             }
-            LabelInfo.Text = text;
-            LabelInfo.Left = (ClientSize.Width - LabelInfo.Width) / 2;
+            LinkLabelInfo.Text = text;
+            LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
+        }
+
+        private void ButtonCredits_Click(object sender, EventArgs e)
+        {
+            ButtonClick();
+            string linkGitHub = "_";
+            string linkITnetwork = "https://www.itnetwork.cz/";
+            string text = String.Format("\n\n\nThis game was created as a competing project for ITnetwork summer 2017.\n\nAll code was written by Marek Zelený.\n\nThe license is freeware, you can see the whole code at {0}.\n\n\nThank you for playing my game. I hope you enjoyed it, even though it was only a fun project. Go ahead and visit {1}, where I learned everything I know about programming.", linkGitHub, linkITnetwork);
+            LinkLabelInfo.Text = text;
+            LinkLabelInfo.LinkArea = new LinkArea(text.IndexOf(linkGitHub), linkGitHub.Length);
+            LinkLabelInfo.LinkArea = new LinkArea(text.IndexOf(linkITnetwork), linkITnetwork.Length);
+            LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
+        }
+
+        private void ButtonEndGame_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure you want to end the game?", "End game", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+                Close();
         }
 
         private void ButtonBack_Click(object sender, EventArgs e)
@@ -63,12 +78,22 @@ namespace ShootingGame
             ButtonEndGame.Show();
             ButtonBack.Hide();
 
-            LabelInfo.Text = "";
+            LinkLabelInfo.Text = "";
+            LinkLabelInfo.LinkArea = new LinkArea(0, 0);
         }
 
         private void FormMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveHighscores();
+        }
+
+        private void ButtonClick()
+        {
+            ButtonPlay.Hide();
+            ButtonHighscores.Hide();
+            ButtonCredits.Hide();
+            ButtonEndGame.Hide();
+            ButtonBack.Show();
         }
 
         private void SaveScore(int score, int level)

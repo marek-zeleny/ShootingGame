@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace ShootingGame
 {
@@ -38,6 +39,7 @@ namespace ShootingGame
         private void ButtonHighscores_Click(object sender, EventArgs e)
         {
             ButtonClick();
+            highscores = Methods.SortTwo_dimensionalArray(highscores, 0);
             string text = "\n\n\n\nHIGHSCORES\n\nScore" + "Level".PadLeft(8) + "Date  \n".PadLeft(20);
             int count = highscores.Count;
             if (count > maxHighscoresCount)
@@ -58,8 +60,8 @@ namespace ShootingGame
             string linkITnetwork = "https://www.itnetwork.cz/";
             string text = String.Format("\n\n\nThis game was created as a competing project for ITnetwork summer 2017.\n\nAll code was written by Marek Zelený.\n\nThe license is freeware, you can see the whole code at {0}.\n\n\nThank you for playing my game. I hope you enjoyed it, even though it was only a fun project. Go ahead and visit {1}, where I learned everything I know about programming.", linkGitHub, linkITnetwork);
             LinkLabelInfo.Text = text;
-            LinkLabelInfo.LinkArea = new LinkArea(text.IndexOf(linkGitHub), linkGitHub.Length);
-            LinkLabelInfo.LinkArea = new LinkArea(text.IndexOf(linkITnetwork), linkITnetwork.Length);
+            LinkLabelInfo.Links.Add(new LinkLabel.Link(text.IndexOf(linkITnetwork), linkITnetwork.Length, linkITnetwork));
+            LinkLabelInfo.Links.Add(new LinkLabel.Link(text.IndexOf(linkGitHub), linkGitHub.Length, linkGitHub));
             LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
         }
 
@@ -82,11 +84,25 @@ namespace ShootingGame
             LinkLabelInfo.LinkArea = new LinkArea(0, 0);
         }
 
+        private void LinkLabelInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start(e.Link.LinkData as String);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(String.Format("An error occured when trying to open the hypertext link:\n{0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void FormMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveHighscores();
         }
-
+        /// <summary>
+        /// Hides main menu buttons and shows "BACK" button.
+        /// </summary>
         private void ButtonClick()
         {
             ButtonPlay.Hide();
@@ -95,27 +111,32 @@ namespace ShootingGame
             ButtonEndGame.Hide();
             ButtonBack.Show();
         }
-
+        /// <summary>
+        /// Saves a new score into highscores, if it's high enough.
+        /// </summary>
+        /// <param name="score">Score to save</param>
+        /// <param name="level">Level, in which the score was accomplished</param>
         private void SaveScore(int score, int level)
         {
             DateTime dateTime = DateTime.Now;
             string[] newScore = new string[] { score.ToString(), level.ToString(), dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString() };
-            int i = maxHighscoresCount - 1;
 
-            if (highscores.Count < maxHighscoresCount)
+            Methods.SortTwo_dimensionalArray(highscores, 0);
+
+            if (highscores.Count < maxHighscoresCount * 2)
                 highscores.Add(newScore);
-            else if (score > int.Parse(highscores[i][0]))
+            else if (score > int.Parse(highscores[highscores.Count - 1][0]))
             {
-                while (i > 0 && score > int.Parse(highscores[i - 1][0]))
-                    i--;
-                highscores.Insert(i, newScore);
-                highscores.RemoveAt(maxHighscoresCount);
+                highscores.Add(newScore);
+                highscores.RemoveAt(highscores.Count - 1);
             }
-            highscores = Methods.SortTwo_dimentionalArray(highscores);
         }
-
+        /// <summary>
+        /// Saves current highscores onto the hard drive (%appdata% folder).
+        /// </summary>
         private void SaveHighscores()
         {
+            Methods.SortTwo_dimensionalArray(highscores, 0);
             try
             {
                 if (!Directory.Exists(savePath))
@@ -139,7 +160,9 @@ namespace ShootingGame
                 MessageBox.Show(String.Format("An error occured when trying to save the highscores:\n{0}", e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Loads highscores saved on the hard drive (%appdata% folder).
+        /// </summary>
         private void LoadHighscores()
         {
             try

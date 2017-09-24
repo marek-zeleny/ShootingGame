@@ -54,21 +54,31 @@ namespace ShootingGame
 
             return new int[] { x, y };
         }
-
-        public static List<string[]> SortTwo_dimentionalArray(List<string[]> array)
+        /// <summary>
+        /// Sorts a 2-dimensional list according to its given row.
+        /// </summary>
+        /// <typeparam name="T">Data type</typeparam>
+        /// <param name="array">List to be sorted</param>
+        /// <param name="row">Index of a row according to which the list will be sorted</param>
+        /// <returns>Sorted list</returns>
+        public static List<T[]> SortTwo_dimensionalArray<T>(List<T[]> array, int row) where T: IComparable
         {
-            int mistakes = 0;
-            do
+            try
             {
-                mistakes = 0;
-                for (int i = 0; i < array.Count - 1; i++)
-                    if (int.Parse(array[i][0]) < int.Parse(array[i + 1][0]))
-                    {
-                        array.Reverse(i, 2);
-                        mistakes++;
-                    }
+                int mistakes = 0;
+                do
+                {
+                    mistakes = 0;
+                    for (int i = 0; i < array.Count - 1; i++)
+                        if (Convert.ToInt32(array[i][row]) < Convert.ToInt32(array[i + 1][row]))
+                        {
+                            array.Reverse(i, 2);
+                            mistakes++;
+                        }
+                }
+                while (mistakes > 0);
             }
-            while (mistakes > 0);
+            catch { }
             return array;
         }
     }

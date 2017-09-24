@@ -39,7 +39,7 @@
             this.ClientSize = new System.Drawing.Size(1264, 711);
             this.Name = "FormOpenning";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormOpenning";
+            this.Text = "Shooting Game";
             this.Shown += new System.EventHandler(this.FormOpenning_Shown);
             this.ResumeLayout(false);
 

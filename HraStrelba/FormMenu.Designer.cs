@@ -34,7 +34,6 @@
             this.ButtonEndGame = new System.Windows.Forms.Button();
             this.ButtonBack = new System.Windows.Forms.Button();
             this.LinkLabelInfo = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ButtonPlay
@@ -103,24 +102,13 @@
             this.LinkLabelInfo.Size = new System.Drawing.Size(0, 21);
             this.LinkLabelInfo.TabIndex = 6;
             this.LinkLabelInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Lucida Console", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(126, 93);
-            this.label1.MaximumSize = new System.Drawing.Size(600, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 21);
-            this.label1.TabIndex = 7;
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.LinkLabelInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelInfo_LinkClicked);
             // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 661);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.LinkLabelInfo);
             this.Controls.Add(this.ButtonBack);
             this.Controls.Add(this.ButtonEndGame);
@@ -131,7 +119,7 @@
             this.MinimumSize = new System.Drawing.Size(700, 700);
             this.Name = "FormMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormMenu";
+            this.Text = "Shooting Game";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMenu_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -146,6 +134,5 @@
         private System.Windows.Forms.Button ButtonEndGame;
         private System.Windows.Forms.Button ButtonBack;
         private System.Windows.Forms.LinkLabel LinkLabelInfo;
-        private System.Windows.Forms.Label label1;
     }
 }

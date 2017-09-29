@@ -84,10 +84,16 @@ namespace ShootingGame
             gameManager.NextLevel();
         }
 
-        private void TimerBonus_Tick(object sender, EventArgs e)
+        private void TimerInfo_Tick(object sender, EventArgs e)
         {
             LabelInfo.Text = "";
             TimerInfo.Enabled = false;
+        }
+
+        private void TimerBonus_Tick(object sender, EventArgs e)
+        {
+            gameManager.BonusExpire();
+            TimerBonus.Enabled = false;
         }
         /// <summary>
         /// Informs about a new active bonus.
@@ -97,9 +103,41 @@ namespace ShootingGame
         {
             LabelInfo.Text = text;
             LabelInfo.Left = ClientSize.Width / 2 - LabelInfo.Width / 2;
-            TimerInfo.Enabled = true;
+            StartTimer("Info");
         }
-
+        /// <summary>
+        /// Disables and then enables a specified timer.
+        /// </summary>
+        /// <param name="timerName">Name of the timer</param>
+        public void StartTimer(string timerName)
+        {
+            Timer timer;
+            switch (timerName)
+            {
+                case "Info":
+                    timer = TimerInfo;
+                    break;
+                case "Level":
+                    timer = TimerLevel;
+                    break;
+                case "Bonus":
+                    timer = TimerBonus;
+                    break;
+                default:
+                    timer = null;
+                    break;
+            }
+            if (timer != null)
+            {
+                timer.Enabled = false;
+                timer.Enabled = true;
+            }
+        }
+        /// <summary>
+        /// Ends the game and closes the form.
+        /// </summary>
+        /// <param name="finalScore">Final score achived in the game</param>
+        /// <param name="finalLevel">Level that was reached</param>
         public void GameOver(int finalScore, int finalLevel)
         {
             this.finalScore = finalScore;

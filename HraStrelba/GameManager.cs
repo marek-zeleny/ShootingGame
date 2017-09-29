@@ -39,6 +39,7 @@ namespace ShootingGame
         private bool moveUp = false;
         private bool moveDown = false;
 
+        private float velocityModifier = 1;
         public bool shootingEnabled = false;
 
         private Random random = new Random();
@@ -82,6 +83,22 @@ namespace ShootingGame
                 playerHistoryY.Insert(0, y);
             }
             NextLevel();
+        }
+        /// <summary>
+        /// Ends the game and returns to the menu.
+        /// </summary>
+        public void GameOver()
+        {
+            form.GameOver(player.Score, level);
+        }
+        /// <summary>
+        /// Refreshes information about the currently played game.
+        /// </summary>
+        /// <returns>Player's score and ammo as string.</returns>
+        public string GetScoreAmmoHpInfo()
+        {
+            string s = String.Format("Score: {0}\nAmmo: {1}\nHp: {2}", player.Score, player.Ammo, player.Hp);
+            return s;
         }
         /// <summary>
         /// Sets up next level of the game.
@@ -186,19 +203,23 @@ namespace ShootingGame
                 shots.Add(s);
             }
         }
-        /// <summary>
-        /// Refreshes information about the currently played game.
-        /// </summary>
-        /// <returns>Player's score and ammo as string.</returns>
-        public string GetScoreAmmoHpInfo()
+
+        public void NewBonus()
         {
-            string s = String.Format("Score: {0}\nAmmo: {1}\nHp: {2}", player.Score, player.Ammo, player.Hp);
-            return s;
+            string effect = player.ActiveBonus.Effect;
+            string temporaryBonuses = "Rapid Fire Shotgun Slow Motion";
+            form.WriteInfo("Bonus: " + effect);
+
+            if (effect == "Slow Motion")
+                velocityModifier = 0.5F;
+            if (temporaryBonuses.Contains(effect))
+                form.StartTimer("Bonus");
         }
 
-        public void GameOver()
+        public void BonusExpire()
         {
-            form.GameOver(player.Score, level);
+            velocityModifier = 1;
+            player.BonusEffectExpire();
         }
         /// <summary>
         /// Draws all objects on the form.
@@ -219,7 +240,7 @@ namespace ShootingGame
         /// </summary>
         public void MoveAll()
         {
-            player.Move(moveRight, moveLeft, moveUp, moveDown);
+            player.Move(moveRight, moveLeft, moveUp, moveDown, velocityModifier);
             playerHistoryX.RemoveAt(playerHistoryX.Count - 1);
             playerHistoryY.RemoveAt(playerHistoryY.Count - 1);
             playerHistoryX.Insert(0, player.X);
@@ -231,13 +252,13 @@ namespace ShootingGame
                     i = 99;
                 else if (i < 0)
                     i = 0;
-                e.Move(playerHistoryX[i], playerHistoryY[i], true);
+                e.Move(playerHistoryX[i], playerHistoryY[i], true, velocityModifier);
             }
 
             List<Shot> deleteShots = new List<Shot>();
             foreach (Shot shot in shots)
             {
-                shot.Move();
+                shot.Move(velocityModifier);
                 if (shot.X < -shot.Size || shot.Y < -shot.Size || shot.X > FormWidth + shot.Size || shot.Y > FormHeight + shot.Size)
                     deleteShots.Add(shot);
             }
@@ -288,7 +309,7 @@ namespace ShootingGame
                 if (bonus.TouchesAnotherObject(player))
                 {
                     deleteBonuses.Add(bonus);
-                    form.WriteInfo("Bonus: " + bonus.Effect);
+                    NewBonus();
                 }
             }
 
@@ -302,8 +323,7 @@ namespace ShootingGame
             if (enemies.Count <= 0)
             {
                 NextLevel();
-                form.TimerLevel.Enabled = false;
-                form.TimerLevel.Enabled = true;
+                form.StartTimer("Level");
             }
         }
     }

@@ -35,6 +35,7 @@
             this.TimerLevel = new System.Windows.Forms.Timer(this.components);
             this.LabelInfo = new System.Windows.Forms.Label();
             this.TimerInfo = new System.Windows.Forms.Timer(this.components);
+            this.TimerBonus = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // TimerMovement
@@ -75,7 +76,12 @@
             // TimerInfo
             // 
             this.TimerInfo.Interval = 3000;
-            this.TimerInfo.Tick += new System.EventHandler(this.TimerBonus_Tick);
+            this.TimerInfo.Tick += new System.EventHandler(this.TimerInfo_Tick);
+            // 
+            // TimerBonus
+            // 
+            this.TimerBonus.Interval = 6000;
+            this.TimerBonus.Tick += new System.EventHandler(this.TimerBonus_Tick);
             // 
             // FormGame
             // 
@@ -112,7 +118,8 @@
         private System.Windows.Forms.Label LabelGameStats;
         private System.Windows.Forms.Label LabelInfo;
         private System.Windows.Forms.Timer TimerInfo;
-        public System.Windows.Forms.Timer TimerLevel;
+        private System.Windows.Forms.Timer TimerLevel;
+        private System.Windows.Forms.Timer TimerBonus;
     }
 }
 

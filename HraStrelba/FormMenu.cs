@@ -115,7 +115,7 @@ namespace ShootingGame
         /// Saves a new score into highscores, if it's high enough.
         /// </summary>
         /// <param name="score">Score to save</param>
-        /// <param name="level">Level, in which the score was accomplished</param>
+        /// <param name="level">Level, in which the score was achived</param>
         private void SaveScore(int score, int level)
         {
             DateTime dateTime = DateTime.Now;
@@ -165,22 +165,23 @@ namespace ShootingGame
         /// </summary>
         private void LoadHighscores()
         {
-            try
-            {
-                using (StreamReader sr = new StreamReader(Path.Combine(savePath, "highscores.txt")))
+            if (File.Exists(Path.Combine(savePath, "highscores.txt")))
+                try
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
+                    using (StreamReader sr = new StreamReader(Path.Combine(savePath, "highscores.txt")))
                     {
-                        string[] devided = line.Split(';');
-                        highscores.Add(devided);
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            string[] devided = line.Split(';');
+                            highscores.Add(devided);
+                        }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(String.Format("An error occured when trying to load the highscores:\n{0}", e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                catch (Exception e)
+                {
+                    MessageBox.Show(String.Format("An error occured when trying to load the highscores:\n{0}", e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
         }
     }
 }

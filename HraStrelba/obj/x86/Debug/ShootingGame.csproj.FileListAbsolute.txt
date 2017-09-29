@@ -8,3 +8,13 @@ C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormGame.resources
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormMenu.resources
 C:\Users\Marek\Documents\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormOpenning.resources
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.exe
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\HraStrelba.pdb
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\bin\Debug\HraStrelba.exe
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\bin\Debug\HraStrelba.pdb
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csprojResolveAssemblyReference.cache
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormGame.resources
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormMenu.resources
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.FormOpenning.resources
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.Properties.Resources.resources
+E:\Documents and Settings\Uživatel\Dokumenty\Visual Studio 2010\Projects\HraStrelba\HraStrelba\obj\x86\Debug\ShootingGame.csproj.GenerateResource.Cache

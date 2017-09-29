@@ -15,6 +15,7 @@ namespace ShootingGame
         private float reload = 0;
         public int Ammo { get; private set; }
         public int Score { get; private set; }
+        public Bonus ActiveBonus { get; private set; }
         public int XMax { get; set; } //borders of the client
         public int YMax { get; set; }
 
@@ -65,9 +66,9 @@ namespace ShootingGame
         /// <param name="left"></param>
         /// <param name="up"></param>
         /// <param name="down"></param>
-        public override void Move(bool right, bool left, bool up, bool down)
+        public override void Move(bool right, bool left, bool up, bool down, float velocityModifier)
         {
-            base.Move(right, left, up, down);
+            base.Move(right, left, up, down, velocityModifier);
             if (X < Size / 2) //window border
                 X = Size / 2;
             if (X > XMax - Size / 2)
@@ -105,7 +106,7 @@ namespace ShootingGame
                 if (distance <= (Size + obj.Size) / 2)
                 {
                     Bonus bonus = (Bonus)obj;
-                    NewBonusEffect(bonus.Effect);
+                    NewBonusEffect(bonus);
                 }
             if (obj is Enemy)
                 if (distance <= (Size + obj.Size) / 2)
@@ -129,10 +130,11 @@ namespace ShootingGame
         /// <summary>
         /// Adds an effect of a picked up bonus.
         /// </summary>
-        /// <param name="effect">Effect of the bonus</param>
-        private void NewBonusEffect(string effect)
+        /// <param name="bonus">Instance of the bonus</param>
+        private void NewBonusEffect(Bonus bonus)
         {
-            switch (effect)
+            ActiveBonus = bonus;
+            switch (ActiveBonus.Effect)
             {
                 case "Extra Ammo":
                     Ammo += 10;
@@ -145,9 +147,28 @@ namespace ShootingGame
                 case "Heal":
                     Hp += 1;
                     break;
-                case "":
+                case "Slow Motion":
+                    break;
+                default:
                     break;
             }
+        }
+
+        public void BonusEffectExpire()
+        {
+            switch (ActiveBonus.Effect)
+            {
+                case "Rapid Fire":
+                    shootingSpeed = 0.3F;
+                    break;
+                case "Shotgun":
+                    break;
+                case "Slow Motion":
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

@@ -31,16 +31,16 @@ namespace ShootingGame
         /// <param name="playerX">X coordinate of the guiding point</param>
         /// <param name="playerY">Y coordinate of the guiding point</param>
         /// <param name="towards">True for moving towards the point, fals for moving away</param>
-        public void Move(float playerX, float playerY, bool towards)
+        public void Move(float playerX, float playerY, bool towards, float velocityModifier)
         {
             bool right = (playerX - X > Velocity);
             bool left = (playerX - X < -Velocity);
             bool down = (playerY - Y > Velocity);
             bool up = (playerY - Y < -Velocity);
             if (towards)
-                base.Move(right, left, up, down);
+                base.Move(right, left, up, down, velocityModifier);
             else
-                base.Move(!right, !left, !up, !down);
+                base.Move(!right, !left, !up, !down, velocityModifier);
         }
 
         public override bool TouchesAnotherObject(Object obj)
@@ -49,7 +49,7 @@ namespace ShootingGame
             if (obj is Enemy && !(obj is Player))
             {
                 if (distance < (Size + obj.Size) / 2)
-                    Move(obj.X, obj.Y, false);
+                    Move(obj.X, obj.Y, false, 1);
                 return false;
             }
             return base.TouchesAnotherObject(obj);

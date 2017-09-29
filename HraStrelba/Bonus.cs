@@ -29,7 +29,7 @@ namespace ShootingGame
         private void SelectEffect()
         {
             Random r = new Random();
-            int i = r.Next(4);
+            int i = r.Next(5);
 
             switch (i)
             {
@@ -46,7 +46,7 @@ namespace ShootingGame
                     Effect = "Heal";
                     break;
                 case 4:
-                    Effect = "";
+                    Effect = "Slow Motion";
                     break;
             }
         }

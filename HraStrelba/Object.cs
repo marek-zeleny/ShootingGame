@@ -55,9 +55,9 @@ namespace ShootingGame
         /// <param name="left"></param>
         /// <param name="up"></param>
         /// <param name="down"></param>
-        public virtual void Move(bool right, bool left, bool up, bool down)
+        public virtual void Move(bool right, bool left, bool up, bool down, float velocityModifier)
         {
-            float v = Velocity;
+            float v = Velocity * velocityModifier;
             float Dx = 0;
             float Dy = 0;
             if ((right || left) && (up || down)) //same diagonal speed as horizontal/vertical

@@ -31,10 +31,10 @@ namespace ShootingGame
         /// <summary>
         /// Moves the shot.
         /// </summary>
-        public void Move()
+        public void Move(float velocityModifier)
         {
-            X += vX;
-            Y += vY;
+            X += vX * velocityModifier;
+            Y += vY * velocityModifier;
         }
     }
 }

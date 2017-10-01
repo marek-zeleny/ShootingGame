@@ -39,7 +39,6 @@ namespace ShootingGame
         private bool moveUp = false;
         private bool moveDown = false;
 
-        private float velocityModifier = 1;
         public bool shootingEnabled = false;
 
         private Random random = new Random();
@@ -56,18 +55,6 @@ namespace ShootingGame
             FormHeight = height;
             this.form = form;
             LoadGame();
-        }
-        /// <summary>
-        /// Applies a change in the client size.
-        /// </summary>
-        /// <param name="width">New width of the client</param>
-        /// <param name="height">New height of the client</param>
-        public void SetClientSize(int width, int height)
-        {
-            FormWidth = width;
-            FormHeight = height;
-            player.XMax = width;
-            player.YMax = height;
         }
         /// <summary>
         /// Prepares everything necessary to start the game.
@@ -92,23 +79,14 @@ namespace ShootingGame
             form.GameOver(player.Score, level);
         }
         /// <summary>
-        /// Refreshes information about the currently played game.
-        /// </summary>
-        /// <returns>Player's score and ammo as string.</returns>
-        public string GetScoreAmmoHpInfo()
-        {
-            string s = String.Format("Score: {0}\nAmmo: {1}\nHp: {2}", player.Score, player.Ammo, player.Hp);
-            return s;
-        }
-        /// <summary>
         /// Sets up next level of the game.
         /// </summary>
         public void NextLevel()
         {
             int[] xy;
             // add bonus
-            int x = random.Next(FormWidth);
-            int y = random.Next(FormHeight);
+            int x = random.Next(Bonus.size, FormWidth - Bonus.size);
+            int y = random.Next(Bonus.size, FormHeight - Bonus.size);
             bonuses.Add(new Bonus(x, y));
 
             int enemyCount, damage, hp, scoreValue;
@@ -141,7 +119,88 @@ namespace ShootingGame
                     velocity = 2.5F;
                     damage = 3;
                     hp = 7;
+                    scoreValue = 6;
+                    colour = Color.Violet;
+                    break;
+                case 3:
+                    enemyCount = 4;
+                    size = 32;
+                    velocity = 5;
+                    damage = 1;
+                    hp = 1;
+                    scoreValue = 3;
+                    colour = Color.Turquoise;
+                    break;
+                case 4:
+                    enemyCount = 4;
+                    size = 30;
+                    velocity = 3.6F;
+                    damage = 2;
+                    hp = 3;
+                    scoreValue = 8;
+                    colour = Color.Orange;
+                    break;
+                case 5:
+                    enemyCount = 6;
+                    size = 30;
+                    velocity = 3.2F;
+                    damage = 1;
+                    hp = 6;
                     scoreValue = 7;
+                    colour = Color.Brown;
+                    break;
+                case 6:
+                    enemyCount = 2;
+                    size = 38;
+                    velocity = 2.7F;
+                    damage = 4;
+                    hp = 12;
+                    scoreValue = 12;
+                    colour = Color.DarkMagenta;
+                    break;
+                case 7:
+                    enemyCount = 7;
+                    size = 30;
+                    velocity = 3;
+                    damage = 1;
+                    hp = 5;
+                    scoreValue = 5;
+                    colour = Color.Yellow;
+                    break;
+                case 8:
+                    enemyCount = 6;
+                    size = 32;
+                    velocity = 5;
+                    damage = 1;
+                    hp = 1;
+                    scoreValue = 3;
+                    colour = Color.Turquoise;
+                    break;
+                case 9:
+                    enemyCount = 3;
+                    size = 38;
+                    velocity = 2.7F;
+                    damage = 4;
+                    hp = 12;
+                    scoreValue = 12;
+                    colour = Color.DarkMagenta;
+                    break;
+                case 10:
+                    enemyCount = 6;
+                    size = 30;
+                    velocity = 3.6F;
+                    damage = 2;
+                    hp = 3;
+                    scoreValue = 8;
+                    colour = Color.Orange;
+                    break;
+                case 11:
+                    enemyCount = 7;
+                    size = 25;
+                    velocity = 2.5F;
+                    damage = 3;
+                    hp = 7;
+                    scoreValue = 6;
                     colour = Color.Violet;
                     break;
             }
@@ -201,25 +260,30 @@ namespace ShootingGame
             {
                 Shot s = new Shot(player.GunX, player.GunY, player.X, player.Y);
                 shots.Add(s);
+                //shotgun
+                if (player.ActiveBonuses.Contains("Shotgun"))
+                {
+                    float x = player.GunX - player.X;
+                    float y = player.GunY - player.Y;
+                    bool xIsNegative = (x < 0);
+                    float u = (float)(Math.Asin(y / Player.gunSize) + Math.PI / 12);
+
+                    x = (float)(Player.gunSize * Math.Cos(u));
+                    y = (float)(Player.gunSize * Math.Sin(u));
+                    if (xIsNegative)
+                        x = -x;
+                    s = new Shot(x + player.X, y + player.Y, player.X, player.Y);
+                    shots.Add(s);
+
+                    u -= (float)Math.PI / 6;
+                    x = (float)(Player.gunSize * Math.Cos(u));
+                    y = (float)(Player.gunSize * Math.Sin(u));
+                    if (xIsNegative)
+                        x = -x;
+                    s = new Shot(x + player.X, y + player.Y, player.X, player.Y);
+                    shots.Add(s);
+                }
             }
-        }
-
-        public void NewBonus()
-        {
-            string effect = player.ActiveBonus.Effect;
-            string temporaryBonuses = "Rapid Fire Shotgun Slow Motion";
-            form.WriteInfo("Bonus: " + effect);
-
-            if (effect == "Slow Motion")
-                velocityModifier = 0.5F;
-            if (temporaryBonuses.Contains(effect))
-                form.StartTimer("Bonus");
-        }
-
-        public void BonusExpire()
-        {
-            velocityModifier = 1;
-            player.BonusEffectExpire();
         }
         /// <summary>
         /// Draws all objects on the form.
@@ -234,13 +298,25 @@ namespace ShootingGame
             foreach (Bonus b in bonuses)
                 b.Draw(g);
             player.Draw(g, mouseX, mouseY);
+            g.FillRectangle(Brushes.LightGray, 0, FormHeight, FormWidth, FormHeight);
+            g.DrawLine(Pens.Black, 0, FormHeight, FormWidth, FormHeight);
+            //bonuses progress bars
+            float barWidth = 100;
+            float barHeight = 30;
+            float barX = FormWidth - (barWidth + 20);
+            for (int i = 0; i < player.ActiveBonusesExpireTime.Count; i++)
+            {
+                g.FillRectangle(Brushes.Blue, barX, FormHeight + 25, barWidth * ((float)player.ActiveBonusesExpireTime[i] / player.BonusDuration), barHeight);
+                g.DrawRectangle(Pens.Black, barX, FormHeight + 25, barWidth, barHeight);
+                barX -= (barWidth + 20);
+            }
         }
         /// <summary>
         /// Processes the movement of all objects in the game.
         /// </summary>
         public void MoveAll()
         {
-            player.Move(moveRight, moveLeft, moveUp, moveDown, velocityModifier);
+            player.Move(moveRight, moveLeft, moveUp, moveDown, player.VelocityModifier);
             playerHistoryX.RemoveAt(playerHistoryX.Count - 1);
             playerHistoryY.RemoveAt(playerHistoryY.Count - 1);
             playerHistoryX.Insert(0, player.X);
@@ -252,13 +328,13 @@ namespace ShootingGame
                     i = 99;
                 else if (i < 0)
                     i = 0;
-                e.Move(playerHistoryX[i], playerHistoryY[i], true, velocityModifier);
+                e.Move(playerHistoryX[i], playerHistoryY[i], true, player.VelocityModifier);
             }
 
             List<Shot> deleteShots = new List<Shot>();
             foreach (Shot shot in shots)
             {
-                shot.Move(velocityModifier);
+                shot.Move(player.VelocityModifier);
                 if (shot.X < -shot.Size || shot.Y < -shot.Size || shot.X > FormWidth + shot.Size || shot.Y > FormHeight + shot.Size)
                     deleteShots.Add(shot);
             }
@@ -309,7 +385,7 @@ namespace ShootingGame
                 if (bonus.TouchesAnotherObject(player))
                 {
                     deleteBonuses.Add(bonus);
-                    NewBonus();
+                    form.WriteInfo("Bonus: " + player.LastActivatedBonus);
                 }
             }
 
@@ -325,6 +401,26 @@ namespace ShootingGame
                 NextLevel();
                 form.StartTimer("Level");
             }
+        }
+        /// <summary>
+        /// Applies a change in the client size.
+        /// </summary>
+        /// <param name="width">New width of the client</param>
+        /// <param name="height">New height of the client</param>
+        public void SetClientSize(int width, int height)
+        {
+            FormWidth = width;
+            FormHeight = height;
+            player.SetClientSize(width, height);
+        }
+        /// <summary>
+        /// Refreshes information about the currently played game.
+        /// </summary>
+        /// <returns>Player's score and ammo as string.</returns>
+        public string GetScoreAmmoInfo()
+        {
+            string s = String.Format("Score: {0}   Ammo: {1}", player.Score, player.Ammo);
+            return s;
         }
     }
 }

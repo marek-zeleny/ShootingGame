@@ -35,7 +35,6 @@
             this.TimerLevel = new System.Windows.Forms.Timer(this.components);
             this.LabelInfo = new System.Windows.Forms.Label();
             this.TimerInfo = new System.Windows.Forms.Timer(this.components);
-            this.TimerBonus = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // TimerMovement
@@ -53,7 +52,7 @@
             // 
             this.LabelGameStats.AutoSize = true;
             this.LabelGameStats.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LabelGameStats.Location = new System.Drawing.Point(12, 9);
+            this.LabelGameStats.Location = new System.Drawing.Point(12, 650);
             this.LabelGameStats.Name = "LabelGameStats";
             this.LabelGameStats.Size = new System.Drawing.Size(0, 20);
             this.LabelGameStats.TabIndex = 0;
@@ -78,23 +77,18 @@
             this.TimerInfo.Interval = 3000;
             this.TimerInfo.Tick += new System.EventHandler(this.TimerInfo_Tick);
             // 
-            // TimerBonus
-            // 
-            this.TimerBonus.Interval = 6000;
-            this.TimerBonus.Tick += new System.EventHandler(this.TimerBonus_Tick);
-            // 
             // FormGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(684, 661);
+            this.ClientSize = new System.Drawing.Size(634, 687);
             this.Controls.Add(this.LabelInfo);
             this.Controls.Add(this.LabelGameStats);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.DoubleBuffered = true;
-            this.MaximumSize = new System.Drawing.Size(700, 700);
-            this.MinimumSize = new System.Drawing.Size(700, 700);
+            this.MaximumSize = new System.Drawing.Size(650, 726);
+            this.MinimumSize = new System.Drawing.Size(650, 726);
             this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Shooting Game";
@@ -119,7 +113,6 @@
         private System.Windows.Forms.Label LabelInfo;
         private System.Windows.Forms.Timer TimerInfo;
         private System.Windows.Forms.Timer TimerLevel;
-        private System.Windows.Forms.Timer TimerBonus;
     }
 }
 

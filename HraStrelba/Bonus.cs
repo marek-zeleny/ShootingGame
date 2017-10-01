@@ -8,6 +8,7 @@ namespace ShootingGame
 {
     class Bonus: Object
     {
+        public const int size = 25;
         public string Effect { get; private set; }
         /// <summary>
         /// Creates a new bonus.
@@ -17,7 +18,7 @@ namespace ShootingGame
         public Bonus(float x, float y)
             : base(x, y)
         {
-            Size = 25;
+            Size = size;
             Damage = 0;
             MaxHp = 1;
             Colour = Color.Green;

@@ -12,6 +12,7 @@ namespace ShootingGame
     public partial class FormGame : Form
     {
         private GameManager gameManager;
+        private int statusBarHeight = 76;
         public int finalScore;
         public int finalLevel;
 
@@ -22,12 +23,12 @@ namespace ShootingGame
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            gameManager = new GameManager(ClientSize.Width, ClientSize.Height, this);
+            gameManager = new GameManager(ClientSize.Width, ClientSize.Height - statusBarHeight, this);
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
         {
-            gameManager.SetClientSize(ClientSize.Width, ClientSize.Height);
+            gameManager.SetClientSize(ClientSize.Width, ClientSize.Height - statusBarHeight);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -70,7 +71,7 @@ namespace ShootingGame
         private void TimerMovement_Tick(object sender, EventArgs e)
         {
             gameManager.MoveAll();
-            LabelGameStats.Text = gameManager.GetScoreAmmoHpInfo();
+            LabelGameStats.Text = gameManager.GetScoreAmmoInfo();
             Refresh();
         }
 
@@ -89,12 +90,6 @@ namespace ShootingGame
             LabelInfo.Text = "";
             TimerInfo.Enabled = false;
         }
-
-        private void TimerBonus_Tick(object sender, EventArgs e)
-        {
-            gameManager.BonusExpire();
-            TimerBonus.Enabled = false;
-        }
         /// <summary>
         /// Informs about a new active bonus.
         /// </summary>
@@ -111,7 +106,7 @@ namespace ShootingGame
         /// <param name="timerName">Name of the timer</param>
         public void StartTimer(string timerName)
         {
-            Timer timer;
+            Timer timer = null;
             switch (timerName)
             {
                 case "Info":
@@ -119,12 +114,6 @@ namespace ShootingGame
                     break;
                 case "Level":
                     timer = TimerLevel;
-                    break;
-                case "Bonus":
-                    timer = TimerBonus;
-                    break;
-                default:
-                    timer = null;
                     break;
             }
             if (timer != null)

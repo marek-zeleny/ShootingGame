@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Timers;
 
 namespace ShootingGame
 {
@@ -11,13 +12,23 @@ namespace ShootingGame
         public float GunX { get; private set; }
         public float GunY { get; private set; }
         public const float gunSize = 30;
-        private float shootingSpeed = 0.3F;
+
+        private float shootingSpeed = 0.35F;
         private float reload = 0;
         public int Ammo { get; private set; }
         public int Score { get; private set; }
-        public Bonus ActiveBonus { get; private set; }
-        public int XMax { get; set; } //borders of the client
-        public int YMax { get; set; }
+
+        public List<string> ActiveBonuses { get; private set; }
+        public List<int> ActiveBonusesExpireTime { get; private set; }
+        public string LastActivatedBonus { get; private set; }
+
+        private Timer TimerBonus;
+        public int BonusDuration { get; private set; }
+
+        public float VelocityModifier { get; private set; }
+
+        private int xMax; //borders of the client
+        private int yMax;
 
         /// <summary>
         /// Creates a new player.
@@ -36,8 +47,19 @@ namespace ShootingGame
             Ammo = 10;
             Score = 0;
             Colour = Color.Blue;
-            XMax = xMax;
-            YMax = yMax;
+
+            ActiveBonuses = new List<string>();
+            ActiveBonusesExpireTime = new List<int>();
+            LastActivatedBonus = "";
+
+            VelocityModifier = 1;
+            BonusDuration = 8000; //time in milliseconds
+            TimerBonus = new Timer(100);
+            TimerBonus.Elapsed += new ElapsedEventHandler(TimerBonus_Tick);
+            TimerBonus.Enabled = true;
+
+            this.xMax = xMax;
+            this.yMax = yMax;
         }
         /// <summary>
         /// Draws the player.
@@ -71,12 +93,12 @@ namespace ShootingGame
             base.Move(right, left, up, down, velocityModifier);
             if (X < Size / 2) //window border
                 X = Size / 2;
-            if (X > XMax - Size / 2)
-                X = XMax - Size / 2;
+            if (X > xMax - Size / 2)
+                X = xMax - Size / 2;
             if (Y < Size / 2)
                 Y = Size / 2;
-            if (Y > YMax - Size / 2)
-                Y = YMax - Size / 2;
+            if (Y > yMax - Size / 2)
+                Y = yMax - Size / 2;
         }
         /// <summary>
         /// Reloads the gun and eventually fires a shot.
@@ -128,47 +150,84 @@ namespace ShootingGame
             Ammo += enemy.MaxHp + 1;
         }
         /// <summary>
-        /// Adds an effect of a picked up bonus.
+        /// Adds the effect of a picked up bonus.
         /// </summary>
         /// <param name="bonus">Instance of the bonus</param>
         private void NewBonusEffect(Bonus bonus)
         {
-            ActiveBonus = bonus;
-            switch (ActiveBonus.Effect)
+            LastActivatedBonus = bonus.Effect;
+            bool requiresTimer = false;
+            switch (bonus.Effect)
             {
                 case "Extra Ammo":
                     Ammo += 10;
                     break;
                 case "Rapid Fire":
                     shootingSpeed = 1;
+                    requiresTimer = true;
                     break;
                 case "Shotgun":
+                    requiresTimer = true;
                     break;
                 case "Heal":
                     Hp += 1;
                     break;
                 case "Slow Motion":
+                    VelocityModifier = 0.6F;
+                    requiresTimer = true;
                     break;
                 default:
                     break;
+            }
+            if (requiresTimer)
+            {
+                if (ActiveBonuses.Contains(LastActivatedBonus))
+                    ActiveBonusesExpireTime[ActiveBonuses.IndexOf(LastActivatedBonus)] = BonusDuration;
+                else
+                {
+                    ActiveBonuses.Insert(0, bonus.Effect);
+                    ActiveBonusesExpireTime.Insert(0, BonusDuration);
+                }
             }
         }
-
-        public void BonusEffectExpire()
+        /// <summary>
+        /// Cancles the effect of an expired bonus.
+        /// </summary>
+        private void BonusEffectExpire(string effect)
         {
-            switch (ActiveBonus.Effect)
+            switch (effect)
             {
                 case "Rapid Fire":
-                    shootingSpeed = 0.3F;
-                    break;
-                case "Shotgun":
+                    shootingSpeed = 0.35F;
                     break;
                 case "Slow Motion":
+                    VelocityModifier = 1;
                     break;
                 default:
                     break;
             }
+            int i = ActiveBonuses.IndexOf(effect);
+            ActiveBonuses.RemoveAt(i);
+            ActiveBonusesExpireTime.RemoveAt(i);
+        }
 
+        private void TimerBonus_Tick(object sender, ElapsedEventArgs e)
+        {
+            for (int i = 0; i < ActiveBonusesExpireTime.Count; i++)
+                ActiveBonusesExpireTime[i] -= 100;
+            for (int i = 0; i < ActiveBonusesExpireTime.Count; i++)
+                if (ActiveBonusesExpireTime[i] <= 0)
+                    BonusEffectExpire(ActiveBonuses[i]);
+        }
+        /// <summary>
+        /// Applies a change in the client size.
+        /// </summary>
+        /// <param name="width">New width of the client</param>
+        /// <param name="height">New height of the client</param>
+        public void SetClientSize(int width, int height)
+        {
+            xMax = width;
+            yMax = height;
         }
     }
 }

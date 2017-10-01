@@ -34,6 +34,7 @@
             this.ButtonEndGame = new System.Windows.Forms.Button();
             this.ButtonBack = new System.Windows.Forms.Button();
             this.LinkLabelInfo = new System.Windows.Forms.LinkLabel();
+            this.ButtonControls = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ButtonPlay
@@ -61,10 +62,10 @@
             // ButtonCredits
             // 
             this.ButtonCredits.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ButtonCredits.Location = new System.Drawing.Point(240, 262);
+            this.ButtonCredits.Location = new System.Drawing.Point(240, 318);
             this.ButtonCredits.Name = "ButtonCredits";
             this.ButtonCredits.Size = new System.Drawing.Size(220, 50);
-            this.ButtonCredits.TabIndex = 2;
+            this.ButtonCredits.TabIndex = 3;
             this.ButtonCredits.Text = "CREDITS";
             this.ButtonCredits.UseVisualStyleBackColor = true;
             this.ButtonCredits.Click += new System.EventHandler(this.ButtonCredits_Click);
@@ -72,7 +73,7 @@
             // ButtonEndGame
             // 
             this.ButtonEndGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ButtonEndGame.Location = new System.Drawing.Point(240, 318);
+            this.ButtonEndGame.Location = new System.Drawing.Point(240, 374);
             this.ButtonEndGame.Name = "ButtonEndGame";
             this.ButtonEndGame.Size = new System.Drawing.Size(220, 50);
             this.ButtonEndGame.TabIndex = 4;
@@ -104,11 +105,23 @@
             this.LinkLabelInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.LinkLabelInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelInfo_LinkClicked);
             // 
+            // ButtonControls
+            // 
+            this.ButtonControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ButtonControls.Location = new System.Drawing.Point(240, 262);
+            this.ButtonControls.Name = "ButtonControls";
+            this.ButtonControls.Size = new System.Drawing.Size(220, 50);
+            this.ButtonControls.TabIndex = 2;
+            this.ButtonControls.Text = "CONTROLS";
+            this.ButtonControls.UseVisualStyleBackColor = true;
+            this.ButtonControls.Click += new System.EventHandler(this.ButtonControls_Click);
+            // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.ButtonControls);
             this.Controls.Add(this.LinkLabelInfo);
             this.Controls.Add(this.ButtonBack);
             this.Controls.Add(this.ButtonEndGame);
@@ -134,5 +147,6 @@
         private System.Windows.Forms.Button ButtonEndGame;
         private System.Windows.Forms.Button ButtonBack;
         private System.Windows.Forms.LinkLabel LinkLabelInfo;
+        private System.Windows.Forms.Button ButtonControls;
     }
 }

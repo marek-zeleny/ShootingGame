@@ -56,12 +56,20 @@ namespace ShootingGame
         private void ButtonCredits_Click(object sender, EventArgs e)
         {
             ButtonClick();
-            string linkGitHub = "_";
+            string linkGitHub = "https://github.com/marek-zeleny/ShootingGame.git";
             string linkITnetwork = "https://www.itnetwork.cz/";
-            string text = String.Format("\n\n\nThis game was created as a competing project for ITnetwork summer 2017.\n\nAll code was written by Marek Zelený.\n\nThe license is freeware, you can see the whole code at {0}.\n\n\nThank you for playing my game. I hope you enjoyed it, even though it was only a fun project. Go ahead and visit {1}, where I learned everything I know about programming.", linkGitHub, linkITnetwork);
+            string text = String.Format("\n\n\nThis game was created as a competing project for ITnetwork summer 2017.\n\nAll code was written by Marek Zelený.\n\nThe license is freeware, you can see the whole code (in the latest version) at {0}.\n\n\nThank you for playing my game. I hope you enjoyed it, even though it was only a fun project. Go ahead and visit {1}, where I learned everything I know about programming.", linkGitHub, linkITnetwork);
             LinkLabelInfo.Text = text;
             LinkLabelInfo.Links.Add(new LinkLabel.Link(text.IndexOf(linkITnetwork), linkITnetwork.Length, linkITnetwork));
             LinkLabelInfo.Links.Add(new LinkLabel.Link(text.IndexOf(linkGitHub), linkGitHub.Length, linkGitHub));
+            LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
+        }
+
+        private void ButtonControls_Click(object sender, EventArgs e)
+        {
+            ButtonClick();
+            string text = "Movement:\nUp - W\nDown - S\nLeft - A\nRight - D\n\nAiming - mouse\nShooting - left mouse click\n\nObjective:\nKill every enemy in each level, but don't get hit by them!\n\nThere are several types of enemies. Each has unique properties (speed, size, damage, health, ect.) and gains you a different amount of points if killed.\n\nThe static green dots are bonuses that will give you some advantage.\n\nThe game cannot be paused!";
+            LinkLabelInfo.Text = text;
             LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
         }
 
@@ -76,6 +84,7 @@ namespace ShootingGame
         {
             ButtonPlay.Show();
             ButtonHighscores.Show();
+            ButtonControls.Show();
             ButtonCredits.Show();
             ButtonEndGame.Show();
             ButtonBack.Hide();
@@ -107,6 +116,7 @@ namespace ShootingGame
         {
             ButtonPlay.Hide();
             ButtonHighscores.Hide();
+            ButtonControls.Hide();
             ButtonCredits.Hide();
             ButtonEndGame.Hide();
             ButtonBack.Show();
@@ -123,12 +133,14 @@ namespace ShootingGame
 
             Methods.SortTwo_dimensionalArray(highscores, 0);
 
+            int worstScore = int.Parse(highscores[highscores.Count - 1][0]);
+
             if (highscores.Count < maxHighscoresCount * 2)
                 highscores.Add(newScore);
-            else if (score > int.Parse(highscores[highscores.Count - 1][0]))
+            else if (score > worstScore)
             {
-                highscores.Add(newScore);
                 highscores.RemoveAt(highscores.Count - 1);
+                highscores.Add(newScore);
             }
         }
         /// <summary>

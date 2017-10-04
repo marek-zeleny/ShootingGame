@@ -133,11 +133,9 @@ namespace ShootingGame
 
             Methods.SortTwo_dimensionalArray(highscores, 0);
 
-            int worstScore = int.Parse(highscores[highscores.Count - 1][0]);
-
             if (highscores.Count < maxHighscoresCount * 2)
                 highscores.Add(newScore);
-            else if (score > worstScore)
+            else if (score > int.Parse(highscores[highscores.Count - 1][0])) //comparing with the worst score
             {
                 highscores.RemoveAt(highscores.Count - 1);
                 highscores.Add(newScore);

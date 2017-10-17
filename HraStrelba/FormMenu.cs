@@ -68,7 +68,7 @@ namespace ShootingGame
         private void ButtonControls_Click(object sender, EventArgs e)
         {
             ButtonClick();
-            string text = "Movement:\nUp - W\nDown - S\nLeft - A\nRight - D\n\nAiming - mouse\nShooting - left mouse click\n\nObjective:\nKill every enemy in each level, but don't get hit by them!\n\nThere are several types of enemies. Each has unique properties (speed, size, damage, health, ect.) and gains you a different amount of points if killed.\n\nThe static green dots are bonuses that will give you some advantage.\n\nThe game cannot be paused!";
+            string text = "Movement:\nUp - W\nDown - S\nLeft - A\nRight - D\n\nAiming - mouse\nShooting - left mouse click\n\nObjective:\nKill every enemy in each level, but don't get hit by them!\n\nThere are several types of enemies. Each has unique properties (speed, size, damage, health, etc.) and gains you a different amount of points if killed.\n\nThe static green dots are bonuses that will give you some advantage.\n\nThe game cannot be paused!";
             LinkLabelInfo.Text = text;
             LinkLabelInfo.Left = (ClientSize.Width - LinkLabelInfo.Width) / 2;
         }
